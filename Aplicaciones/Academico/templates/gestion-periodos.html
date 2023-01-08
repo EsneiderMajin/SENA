@@ -1,0 +1,118 @@
+{% extends "./base.html" %}
+
+{% block title %} Periodos Académicos {% endblock %}
+
+{% block body %}
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Formulario de periodos academicos -->
+            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong class="text-dark">{{ message }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="card border-1 rounded-lg">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Gestión de Periodos Académicos</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="/registrarPeriodo/" method="POST">{% csrf_token %}
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="txtNombre" type="text" placeholder="Nombre" />
+                                <label for="txtNombre">Nombre</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <div class="input-group date" id="datepicker-fi">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Fecha inicial</span>
+                                    <input type="text" id="fechaInicial" class="form-control" placeholder="mm/dd/yyyy" aria-label="fecha inicio" aria-describedby="basic-addon1">
+                                    <span class="input-group-append">
+                                        <span class="input-group-text bg-white">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <div class="input-group date" id="datepicker-ff">
+                                    <span class="input-group-text" id="inputGroup-sizing-sm">Fecha final</span>
+                                    <input type="text" id="fechaFinal" class="form-control" placeholder="mm/dd/yyyy" aria-label="fecha fin" aria-describedby="basic-addon1">
+                                    <span class="input-group-append">
+                                        <span class="input-group-text bg-white">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>                                        
+                            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <button type="submit" class="btn btn-success text-white">Guardar</button>
+                                <a class="btn btn-secondary" href="/gestionPeriodos/">Cancelar</a>
+                            </div>
+                        </form>                        
+                    </div>
+                </div>            
+            </div>
+            <!-- Tabla -->
+            <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                            Periodos académicos
+                    </div>
+                    <div class="card-body">
+                        <table id="datatablesSimple">
+                           <thead>
+                               <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Fecha inicial</th>
+                                    <th class="text-center">Fecha final</th>
+                                    <th class="text-center" colspan="2">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Fecha inicial</th>
+                                    <th class="text-center">Fecha final</th>
+                                    <th class="text-center" colspan="2">Acciones</th>
+                                </tr>
+                            </tfoot>
+                            <tbody>
+                                {% for p in periodos %}
+                                <tr>
+                                    <td class="text-left">{{p.id}}</td>
+                                    <td class="text-left">{{p.nombre}}</td>
+                                    <td class="text-left">{{p.fecha_inicial}}</td>
+                                    <td class="text-left">{{p.fecha_final}}</td>
+                                    <td >
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="/editarPeriodo/{{p.id}}" class="btn btn-primary">Editar</a>
+                                            <a href="/eliminarPeriodo/{{p.id}}" class="btn btn-danger btnEliminar">Eliminar</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        $(function() {
+            $('#datepicker-fi').datepicker();
+            $('#datepicker-ff').datepicker();
+        });
+        
+    </script>
+
+{% endblock %}

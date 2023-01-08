@@ -1,0 +1,80 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de Programas {% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4">
+    <div class="row">
+        <!-- Formulario de programas -->
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong class="text-dark">{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="card border-1 rounded-lg">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Gestión de Programas</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/registrarPrograma/" method="POST">{% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtID" name="txtID" type="text" placeholder="ID" minlength="1" maxlength="6" required/>
+                            <label for="txtID">ID</label>
+                        </div>         
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre" maxlength="50" required/>
+                            <label for="txtNombre">Nombre</label>
+                        </div>    
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            <a class="btn btn-secondary" href="/gestionProgramas/">Cancelar</a>
+                        </div>
+                    </form>                        
+                </div>
+            </div>            
+        </div>
+        <!-- Tabla programas -->
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                        Programas
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead class="">
+                                <tr>
+                                    <th class="text-left" scope="col">ID</th>
+                                    <th class="text-left" scope="col">Nombre</th>
+                                    <th colspan="2" class="text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in programas %}
+                                <tr>
+                                    <td class="text-left" scope="row">{{p.id}}</td>
+                                    <td class="text-left">{{p.nombre}}</td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="/editarPrograma/{{p.id}}" class="btn btn-primary">Editar</a>
+                                            <a href="/eliminarPrograma/{{p.id}}" class="btn btn-danger btnEliminar">Eliminar</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>
+{% endblock %}

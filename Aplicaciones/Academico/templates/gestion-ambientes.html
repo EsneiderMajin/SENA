@@ -1,0 +1,109 @@
+{% extends "./base.html" %}
+
+{% block title %} Gestion de Ambientes {% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4">
+    <div class="row">
+        <!-- Formulario de ambientes -->
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong class="text-dark">{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="card border-1 rounded-lg">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Gestión de Ambientes</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/registrarAmbiente/" method="POST">{% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtCodigo" name="txtCodigo" type="text" placeholder="Codigo" minlength="5" maxlength="5" required/>
+                            <label for="txtCodigo">Codigo</label>
+                        </div>         
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtNombre" name="txtNombre" type="text" placeholder="Nombre" maxlength="50" required/>
+                            <label for="txtNombre">Nombre</label>
+                        </div>          
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="tipoAmbiente" name="tipoAmbiente" aria-label="Floating label select example">
+                              <option value="V" selected>Virtual</option>
+                              <option value="P">Presencial</option>
+                            </select>
+                            <label for="tipoAmbiente">Tipo de ambiente</label>
+                        </div>
+                        <!-- <div class="input-group mb-3">
+                            <label class="input-group-text" for="tipoAmbiente">Tipo</label>
+                            <select class="form-select" id="tipoAmbiente" name="tipoAmbiente">
+                              <option value="V" selected>Virtual</option>
+                              <option value="P">Presencial</option>
+                            </select>
+                        </div> -->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtCapacidad" name="txtCapacidad" type="text" placeholder="Capacidad" minlength="1" maxlength="2" required/>
+                            <label for="txtCapacidad">Capacidad</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtUbicacion" name="txtUbicacion" type="text" placeholder="Ubicación" maxlength="50" required/>
+                            <label for="txtUbicacion">Ubicación</label>
+                        </div>            
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            <a class="btn btn-secondary" href="/gestionAmbientes/">Cancelar</a>
+                        </div>
+                    </form>                        
+                </div>
+            </div>            
+        </div>
+        <!-- Tabla -->
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                        Ambientes
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead class="">
+                                <tr>
+                                    <th class="text-left" scope="col">Codigo</th>
+                                    <th class="text-left" scope="col">Nombre</th>
+                                    <th class="text-left" scope="col">Tipo</th>
+                                    <th class="text-left" scope="col">Capacidad</th>
+                                    <th class="text-left" scope="col">Ubicación</th>
+                                    <th colspan="2" class="text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in ambientes %}
+                                <tr>
+                                    <td class="text-left" scope="row">{{a.codigo}}</td>
+                                    <td class="text-left">{{a.nombre}}</td>
+                                    <td class="text-left">{{a.tipo_ambiente}}</td>
+                                    <td class="text-left">{{a.capacidad}}</td>
+                                    <td class="text-left">{{a.ubicacion}}</td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="/editarAmbiente/{{a.codigo}}" class="btn btn-primary">Editar</a>
+                                            <a href="/eliminarAmbiente/{{a.codigo}}" class="btn btn-danger btnEliminar">Eliminar</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>
+
+{% endblock %}

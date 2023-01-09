@@ -30,14 +30,20 @@ class DocenteView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def get(self, request):
-        docentes = list(Docente.objects.values())
-        
-        if len(docentes)>0:
-            datos={'message':"Success",'docentes':docentes}
+    def get(self, request, identificacion=0):
+        if (identificacion > 0):
+            docentes = list(Docente.objects.filter(identificacion=identificacion).values())
+            if len(docentes) > 0:
+                docente = docentes[0]
+                datos = {'message':"Success",'docente':docente}
+            else:
+                datos = {'message':"No se ha encontrado al docente"}
         else:
-            datos={'message':"No se encontraron docentes"}
-        
+            docentes = list(Docente.objects.values())
+            if len(docentes) > 0:
+                datos = {'message':"Success",'docentes':docentes}
+            else:
+                datos = {'message':"No se encontraron docentes"}
         return JsonResponse(datos)
     
     def post(self, request):
@@ -55,11 +61,34 @@ class DocenteView(View):
         datos={'message':"Success"}
         return JsonResponse(datos)
     
-    def put(self, request):
-        pass
+    def put(self, request, identificacion):
+        jd=json.loads(request.body)
+        area_id = Area.objects.get(id=jd['area_id'])
+        docentes = list(Docente.objects.filter(identificacion=identificacion).values())
+        if len(docentes) > 0:
+            docente = Docente.objects.get(identificacion=identificacion)
+            docente.identificacion = jd['identificacion']
+            docente.nombres = jd['nombres']
+            docente.apellido_paterno = jd['apellido_paterno']
+            docente.apellido_materno = jd['apellido_materno']
+            docente.tipo_identificacion = jd['tipo_identificacion']
+            docente.tipo_docente = jd['tipo_docente']
+            docente.tipo_contrato = jd['tipo_contrato']
+            docente.area = area_id
+            docente.save()
+            datos={'message':"Success"}
+        else:
+            datos = {'message':"No se ha encontrado al docente"}
+        return JsonResponse(datos)
 
-    def delete(self, request):
-        pass
+    def delete(self, request, identificacion):
+        docentes = list(Docente.objects.filter(identificacion=identificacion).values())
+        if len(docentes) > 0:
+            Docente.objects.filter(identificacion=identificacion).delete()
+            datos={'message':"Success"}
+        else:
+            datos = {'message':"No se ha encontrado al docente"}
+        return JsonResponse(datos)
 
 #Ambientes
 def gestionAmbientes(request):

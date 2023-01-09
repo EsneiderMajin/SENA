@@ -70,41 +70,48 @@ def eliminarAmbiente(request, codigo):
 #Periodos
 def gestionPeriodos(request):
     periodosListados = PeriodoAcademico.objects.all()
+    #programasListados = Programa.objects.all()
     return render(request, "gestion-periodos.html", {"periodos": periodosListados})
 
 def registrarPeriodo(request):
     #Recuperar los datos del form html
     id = request.POST['txtID']
     nombre = request.POST['txtNombre']
+    fecha_inicial = request.POST['fechaInicial'] 
+    fecha_final = request.POST['fechaFinal']
     #Registrar
-    programa = Programa.objects.create(id=id, nombre=nombre)
+    periodo = PeriodoAcademico.objects.create(id=id, nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)
     messages.success(request, '¡Periodo registrado!')
     #Recargar la página
-    return redirect('/gestionProgramas/')
+    return redirect('/gestionPeriodos/')
 
 def editarPeriodo(request, id):
-    programa = Programa.objects.get(id=id)
-    return render(request, "edicion-programa.html", {'programa':programa})
+    periodo = PeriodoAcademico.objects.get(id=id)
+    return render(request, "edicion-periodo.html", {'periodo': periodo})
 
 def edicionPeriodo(request):
     id=request.POST['txtID']
     nombre=request.POST['txtNombre']
+    fecha_incial = request.POST['fechaInicial'] 
+    fecha_final = request.POST['fechaFinal']
 
-    programa = Programa.objects.get(id=id)
-    programa.nombre = nombre
-    programa.save()
+    periodo = PeriodoAcademico.objects.get(id=id)
+    periodo.nombre = nombre
+    periodo.fecha_inicial= fecha_incial
+    periodo.fecha_final = fecha_final
+    periodo.save()
 
     messages.success(request, '¡Periodo actualizado!')
 
-    return redirect('/gestionProgramas/')
+    return redirect('/gestionPeriodos/')
 
 def eliminarPeriodo(request, id):
-    programa = Programa.objects.get(id=id)
-    programa.delete()
+    periodo = PeriodoAcademico.objects.get(id=id)
+    periodo.delete()
 
     messages.success(request, '¡Periodo eliminado!')
 
-    return redirect('/gestionProgramas/')
+    return redirect('/gestionPeriodos/')
 
 #Programas
 def gestionProgramas(request):

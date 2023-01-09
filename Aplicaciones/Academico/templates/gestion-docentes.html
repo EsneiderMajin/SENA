@@ -3,5 +3,55 @@
 {% block title %} Docentes {% endblock %}
 
 {% block body %}
-<p>Pagina de Gestion de Docentes</p>
+<div class="container-fluid px-4 mt-4">
+
+        <!-- Tabla -->
+        
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                        Docentes
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead class="">
+                                <tr>
+                                    <th class="text-left" scope="col">Codigo</th>
+                                    <th class="text-left" scope="col">Nombres</th>
+                                    <th class="text-left" scope="col">Apellido Paterno</th>
+                                    <th class="text-left" scope="col">Apellido Materno</th>
+                                    <th class="text-left" scope="col">Tipo identificacion</th>
+                                    <th class="text-left" scope="col">Tipo docente</th>
+                                    <th class="text-left" scope="col">Tipo contrato</th>
+                                    <th class="text-left" scope="col">Area</th>
+                                    <!-- <th colspan="2" class="text-center">Opciones</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in docentes %}
+                                <tr>
+                                    <td class="text-left" scope="row">{{d.identificacion}}</td>
+                                    <td class="text-left">{{d.nombres}}</td>
+                                    <td class="text-left">{{d.apellido_paterno}}</td>
+                                    <td class="text-left">{{d.apellido_materno}}</td>
+                                    <td class="text-left">{{d.tipo_identificacion}}</td>
+                                    <td class="text-left">{{d.tipo_docente}}</td>
+                                    <td class="text-left">{{d.tipo_contrato}}</td>
+                                    <td class="text-left">{{d.area}}</td>
+                                    <!-- <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="/editarAmbiente/{{a.codigo}}" class="btn btn-primary">Editar</a>
+                                            <a href="/eliminarAmbiente/{{a.codigo}}" class="btn btn-danger btnEliminar">Eliminar</a>
+                                        </div>
+                                    </td> -->
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+              
+    </div>
+</div>
 {% endblock %}

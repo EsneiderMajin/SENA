@@ -1,6 +1,11 @@
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from .models import*
 from django.contrib import messages
+import json
 # Create your views here.
 
 #Inicio
@@ -18,6 +23,43 @@ def gestionHorarios(request):
 def gestionDocentes(request):
     docentesListados = Docente.objects.all()
     return render(request, "gestion-docentes.html", {"docentes": docentesListados})
+
+class DocenteView(View):
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        docentes = list(Docente.objects.values())
+        
+        if len(docentes)>0:
+            datos={'message':"Success",'docentes':docentes}
+        else:
+            datos={'message':"No se encontraron docentes"}
+        
+        return JsonResponse(datos)
+    
+    def post(self, request):
+        jd=json.loads(request.body)
+        # print(jd)
+        area_id = Area.objects.get(id=jd['area_id'])
+        Docente.objects.create(identificacion=jd['identificacion'],
+                                nombres=jd['nombres'],
+                                apellido_paterno=jd['apellido_paterno'],
+                                apellido_materno=jd['apellido_materno'],
+                                tipo_identificacion=jd['tipo_identificacion'],
+                                tipo_docente=jd['tipo_docente'],
+                                tipo_contrato=jd['tipo_contrato'],
+                                area=area_id)
+        datos={'message':"Success"}
+        return JsonResponse(datos)
+    
+    def put(self, request):
+        pass
+
+    def delete(self, request):
+        pass
 
 #Ambientes
 def gestionAmbientes(request):

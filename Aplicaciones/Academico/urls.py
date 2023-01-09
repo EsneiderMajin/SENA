@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import DocenteView
 
 urlpatterns = [
     #Principal
@@ -9,6 +10,8 @@ urlpatterns = [
     path('gestionHorarios/', views.gestionHorarios),
     #Docentes
     path('gestionDocentes/', views.gestionDocentes),
+    path('api/Docentes/', DocenteView.as_view(), name='docentes_list'),
+    path('api/Docentes/<int:identificacion>', DocenteView.as_view(), name='docentes_process'),
     #Ambientes
     path('gestionAmbientes/', views.gestionAmbientes),
     path('registrarAmbiente/', views.registrarAmbiente),

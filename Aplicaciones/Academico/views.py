@@ -17,7 +17,12 @@ def return_home(request):
 
 #Horarios
 def gestionHorarios(request):
-    return render(request, "gestion-horarios.html")
+    periodosListados = PeriodoAcademico.objects.all()
+    docentesListados = Docente.objects.all()
+    franjasListadas = FranjaHoraria.objects.all()
+    return render(request, "gestion-horarios.html", {"docentes": docentesListados,
+                                                    "periodos": periodosListados,
+                                                    "franjas": franjasListadas,})
 
 #Docentes
 def gestionDocentes(request):

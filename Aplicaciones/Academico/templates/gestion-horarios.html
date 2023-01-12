@@ -1,7 +1,241 @@
 {% extends "./base.html" %}
 
-{% block title %} Horarios {% endblock %}
+{% block title %} Gestion de Horarios {% endblock %}
 
 {% block body %}
-<p>Pagina de Gestion de Horarios</p>
+<div class="container-fluid px-4">
+    <div class="row">
+        <!-- Formulario de horarios -->
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong class="text-dark">{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="card border-1 rounded-lg">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">Gestión de Horarios</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/registrarAmbiente/" method="POST">{% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="periodo" name="periodo" aria-label="Floating label select example">
+                                {% for p in periodos %}
+                                    <option value='{{p.id}}'>{{ p.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="periodo">Periodo Académico</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="docente" name="docente" aria-label="Floating label select example">
+                                {% for d in docentes %}
+                                    <option value='{{d.identificacion}}'>{{ d.nombres }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="docente">Docente</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="franja" name="franja" aria-label="Floating label select example">
+                                {% for f in franjas %}
+                                    <option value='{{f.id}}'>{{ f.dia }} {{ f.hora_inicio }} - {{ f.hora_fin }}</option>
+                                {% endfor %}
+                            </select>
+                            <label for="franja">Franja Horaria</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtCapacidad" name="txtCapacidad" type="text" placeholder="Capacidad" minlength="1" maxlength="2" required/>
+                            <label for="txtCapacidad">Competencia</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="txtUbicacion" name="txtUbicacion" type="text" placeholder="Ubicación" maxlength="50" required/>
+                            <label for="txtUbicacion">Ambiente</label>
+                        </div>            
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <button type="submit" class="btn btn-success text-white">Guardar</button>
+                            <a class="btn btn-secondary" href="/gestionAmbientes/">Cancelar</a>
+                        </div>
+                    </form>                        
+                </div>
+            </div>            
+        </div>
+        <!-- Tabla -->
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                        Horario
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead class="">
+                                <tr>
+                                    <th class="text-center" scope="col">Hora</th>
+                                    <th class="text-left" scope="col">Lunes</th>
+                                    <th class="text-left" scope="col">Martes</th>
+                                    <th class="text-left" scope="col">Miércoles</th>
+                                    <th class="text-left" scope="col">Jueves</th>
+                                    <th class="text-left" scope="col">Viernes</th>
+                                    <th colspan="2" class="text-center">Sábado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">7 am</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">8 am</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">9 am</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">10 am</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">11 am</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">12 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">1 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">2 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">3 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">4 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">5 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">6 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">7 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">8 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">9 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center">10 pm</td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left"></td>
+                                    <td> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>                
+        </div>
+    </div>
+</div>
+
 {% endblock %}

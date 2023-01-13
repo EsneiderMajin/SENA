@@ -123,7 +123,7 @@ class PeriodoAcademico(models.Model):
 
 class FranjaHoraria(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
-    competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
+    #competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
     dia = models.CharField(max_length=9, choices=dia, default='Lun')
     hora_inicio =  models.TimeField()
     hora_fin = models.TimeField()

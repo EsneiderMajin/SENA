@@ -32,7 +32,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/home/">SENA Web APP</a>
+            <a class="navbar-brand ps-3" href="">SENA Web APP</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -49,7 +49,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#!">Configuración</a></li>
                         <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="/login/">Iniciar sesión</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                     </ul>
                 </li>
             </ul>
@@ -60,18 +60,18 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Core</div>
-                            <a class="nav-link" href="/home/">
+                            <a class="nav-link" href="">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Inicio
                             </a>
                             <div class="sb-sidenav-menu-heading">Gestión</div>
                             <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/gestionHorarios/">Horarios</a>
-                                    <a class="nav-link" href="/gestionDocentes/">Docentes</a>
-                                    <a class="nav-link" href="/gestionAmbientes/">Ambientes</a>
-                                    <a class="nav-link" href="/gestionPeriodos/">Periodos academicos</a>
-                                    <a class="nav-link" href="/gestionProgramas/">Programas</a>
-                                    <a class="nav-link" href="/gestionCompetencias/">Competencias</a>
+                                    <a class="nav-link" href="/app/gestionHorarios/">Horarios</a>
+                                    <a class="nav-link" href="/app/gestionDocentes/">Docentes</a>
+                                    <a class="nav-link" href="/app/gestionAmbientes/">Ambientes</a>
+                                    <a class="nav-link" href="/app/gestionPeriodos/">Periodos academicos</a>
+                                    <a class="nav-link" href="/app/gestionProgramas/">Programas</a>
+                                    <a class="nav-link" href="/app/gestionCompetencias/">Competencias</a>
                             </nav>
                         </div>
                     </div>

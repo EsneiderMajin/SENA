@@ -5,10 +5,21 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from .models import*
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
 import json
 # Create your views here.
 
 #Inicio
+
+class Inicio(LoginRequiredMixin,TemplateView):
+
+    template_name = 'index.html'
+
+    def get(self,request,*args,**kwargs):
+
+        return render(request,self.template_name)
+
 def home(request):
     return render(request, "index.html")
 

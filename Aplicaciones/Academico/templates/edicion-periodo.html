@@ -12,7 +12,7 @@
             <div class="card-body">
               <form action="/app/gestionPeriodos/edicionPeriodo/" method="POST">{% csrf_token %}
                 <div class="form-floating mb-3">
-                    <input value="{{periodo.id}}" class="form-control" id="txtID" name="txtID" type="text" placeholder="Codigo" minlength="5" maxlength="5" readonly required>
+                    <input value="{{periodo.id}}" class="form-control" id="txtID" name="txtID" type="text" placeholder="ID" readonly required>
                     <label for="txtID">ID</label>
                 </div>
                 <div class="form-floating mb-3">

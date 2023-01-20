@@ -11,8 +11,8 @@ urlpatterns = [
     path('gestionHorarios/', login_required(views.gestionHorarios), name='gestion_horario'),
     #Docentes
     path('gestionDocentes/', login_required(views.gestionDocentes)),
-    path('api/Docentes/', login_required(DocenteView.as_view()), name='docentes_list'),
-    path('api/Docentes/<int:identificacion>', login_required(DocenteView.as_view()), name='docentes_process'),
+    path('api/Docentes/', DocenteView.as_view(), name='docentes_list'),
+    path('api/Docentes/<int:identificacion>', DocenteView.as_view(), name='docentes_process'),
     #Ambientes
     path('gestionAmbientes/', login_required(views.gestionAmbientes)),
     path('gestionAmbientes/registrarAmbiente/', login_required(views.registrarAmbiente)),

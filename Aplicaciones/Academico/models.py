@@ -3,7 +3,7 @@ from .choices import *
 # Create your models here.
 
 class TipoUsuario(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
 
     def __str__(self) -> str:
@@ -15,7 +15,7 @@ class TipoUsuario(models.Model):
         db_table = 'tipo_usuario'
 
 class Usuario(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
     tipo_usuario = models.ForeignKey(TipoUsuario, null=True, blank=True, on_delete=models.CASCADE)
@@ -30,7 +30,7 @@ class Usuario(models.Model):
         ordering = ['login']
 
 class Area(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
 
     def __str__(self) -> str:
@@ -79,24 +79,10 @@ class Ambiente(models.Model):
         verbose_name_plural = 'Ambientes'
         db_table = 'ambiente'
 
-class Competencia(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
-    #programa = models.ForeignKey(Programa, null=True, blank=True, on_delete=models.CASCADE)
-    tipo_competencia =  models.CharField(max_length=1, choices=tipoCompetencia, default='G')
-    nombre = models.CharField(max_length=100)
-
-    def __str__(self) -> str:
-        return "{}".format(self.nombre)
-
-    class Meta:
-        verbose_name = 'Competencia'
-        verbose_name_plural = 'Competencias'
-        db_table = 'competencia'
-
 class Programa(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    competencias = models.ManyToManyField(Competencia)
+    #competencias = models.ManyToManyField(Competencia)
     
     def __str__(self) -> str:
         return "{}".format(self.nombre)
@@ -106,8 +92,22 @@ class Programa(models.Model):
         verbose_name_plural = 'Programas'
         db_table = 'programa'
 
+class Competencia(models.Model):
+    #id = models.PositiveIntegerField(primary_key=True)
+    nombre = models.CharField(max_length=100)
+    tipo_competencia =  models.CharField(max_length=1, choices=tipoCompetencia, default='G')
+    programa = models.ForeignKey(Programa, null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return "{}".format(self.nombre)
+
+    class Meta:
+        verbose_name = 'Competencia'
+        verbose_name_plural = 'Competencias'
+        db_table = 'competencia'
+
 class PeriodoAcademico(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
     fecha_inicial =  models.DateField()
     fecha_final = models.DateField()
@@ -122,7 +122,7 @@ class PeriodoAcademico(models.Model):
         db_table = 'periodo_academico'
 
 class FranjaHoraria(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     #competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
     dia = models.CharField(max_length=9, choices=dia, default='Lun')
     hora_inicio =  models.TimeField()
@@ -130,7 +130,7 @@ class FranjaHoraria(models.Model):
     horas_dia = models.PositiveIntegerField()
 
     def __str__(self) -> str:
-        return "{} - {}, {} horas".format(self.competencia, self.dia, self.horas_dia)
+        return "{} - {} horas".format(self.dia, self.horas_dia)
 
     class Meta:
         verbose_name = 'FranjaHoraria'
@@ -138,7 +138,7 @@ class FranjaHoraria(models.Model):
         db_table = 'franja_horaria'
 
 class Horario(models.Model):
-    id = models.PositiveIntegerField(primary_key=True)
+    #id = models.PositiveIntegerField(primary_key=True)
     periodo = models.ForeignKey(PeriodoAcademico, null=True, blank=True, on_delete=models.CASCADE)
     docente = models.ForeignKey(Docente, null=True, blank=True, on_delete=models.CASCADE)
     f_horaria =  models.ForeignKey(FranjaHoraria, null=True, blank=True, on_delete=models.CASCADE)

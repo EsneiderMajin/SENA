@@ -162,12 +162,11 @@ def gestionPeriodos(request):
 
 def registrarPeriodo(request):
     #Recuperar los datos del form html
-    id = request.POST['txtID']
     nombre = request.POST['txtNombre']
     fecha_inicial = request.POST['fechaInicial'] 
     fecha_final = request.POST['fechaFinal']
     #Registrar
-    periodo = PeriodoAcademico.objects.create(id=id, nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)
+    periodo = PeriodoAcademico.objects.create(nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)
     messages.success(request, '¡Periodo registrado!')
     #Recargar la página
     return redirect('/app/gestionPeriodos/')
@@ -207,10 +206,9 @@ def gestionProgramas(request):
 
 def registrarPrograma(request):
     #Recuperar los datos del form html
-    id = request.POST['txtID']
     nombre = request.POST['txtNombre']
     #Registrar
-    programa = Programa.objects.create(id=id, nombre=nombre)
+    programa = Programa.objects.create(nombre=nombre)
     messages.success(request, '¡Programa registrado!')
     #Recargar la página
     return redirect('/app/gestionProgramas/')
@@ -242,15 +240,15 @@ def eliminarPrograma(request, id):
 #Competencias
 def gestionCompetencias(request):
     competenciasListadas = Competencia.objects.all()
-    return render(request, "gestion-competencias.html", {"competencias": competenciasListadas})
+    programasListados = Programa.objects.all()
+    return render(request, "gestion-competencias.html", {"competencias": competenciasListadas, "programas": programasListados})
 
 def registrarCompetencia(request):
     #Recuperar los datos del form html
-    id = request.POST['txtID']
     nombre = request.POST['txtNombre']
     tipo_competencia = request.POST['tipoCompetencia']
     #Registrar
-    competencia = Competencia.objects.create(id=id, nombre=nombre, tipo_competencia = tipo_competencia)
+    competencia = Competencia.objects.create(nombre=nombre, tipo_competencia = tipo_competencia)
     # messages.success(request, '¡Estudiante registrado!')
     #Recargar la página
     return redirect('/app/gestionCompetencias/')

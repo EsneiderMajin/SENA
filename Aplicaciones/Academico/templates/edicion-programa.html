@@ -9,7 +9,7 @@
         <h2>Edición de Programas</h2>
         <div class="card">
             <div class="card-body">
-              <form action="/edicionPrograma/" method="POST">{% csrf_token %}
+              <form action="/app/gestionProgramas/edicionPrograma/" method="POST">{% csrf_token %}
                 <div class="form-floating mb-3">
                     <input type="text" id="txtID" name="txtID" value="{{programa.id}}" class="form-control" placeholder="ID" minlength="1" maxlength="6" readonly required>
                     <label for="txtID">ID</label>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                     <button type="submit" class="btn btn-success text-white">Guardar</button>
-                    <a class="btn btn-secondary" href="/gestionProgramas/">Cancelar</a>
+                    <a class="btn btn-secondary" href="/app/gestionProgramas/">Cancelar</a>
                 </div>
               </form>
             </div>

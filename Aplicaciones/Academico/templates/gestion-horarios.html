@@ -22,7 +22,7 @@
                     <h3 class="text-center font-weight-light my-4">Gestión de Horarios</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/registrarAmbiente/" method="POST">{% csrf_token %}
+                    <form action="registrarAmbiente/" method="POST">{% csrf_token %}
                         <div class="form-floating mb-3">
                             <select class="form-select" id="periodo" name="periodo" aria-label="Floating label select example">
                                 {% for p in periodos %}
@@ -57,7 +57,7 @@
                         </div>            
                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
-                            <a class="btn btn-secondary" href="/gestionAmbientes/">Cancelar</a>
+                            <a class="btn btn-secondary" href="/app/gestionHorarios/">Cancelar</a>
                         </div>
                     </form>                        
                 </div>

@@ -122,7 +122,7 @@ def registrarAmbiente(request):
     ambiente = Ambiente.objects.create(codigo=codigo, nombre=nombre, tipo_ambiente=tipo_ambiente, capacidad=capacidad, ubicacion=ubicacion)
     messages.success(request, '¡Ambiente registrado!')
     #Recargar la página
-    return redirect('/gestionAmbientes/')
+    return redirect('/app/gestionAmbientes/')
 
 def editarAmbiente(request, codigo):
     ambiente = Ambiente.objects.get(codigo=codigo)
@@ -144,7 +144,7 @@ def edicionAmbiente(request):
 
     messages.success(request, '¡Ambiente actualizado!')
 
-    return redirect('/gestionAmbientes/')
+    return redirect('/app/gestionAmbientes/')
 
 def eliminarAmbiente(request, codigo):
     ambiente = Ambiente.objects.get(codigo=codigo)
@@ -152,7 +152,7 @@ def eliminarAmbiente(request, codigo):
 
     messages.success(request, '¡Ambiente eliminado!')
 
-    return redirect('/gestionAmbientes/')
+    return redirect('/app/gestionAmbientes/')
 
 #Periodos
 def gestionPeriodos(request):
@@ -170,7 +170,7 @@ def registrarPeriodo(request):
     periodo = PeriodoAcademico.objects.create(id=id, nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)
     messages.success(request, '¡Periodo registrado!')
     #Recargar la página
-    return redirect('/gestionPeriodos/')
+    return redirect('/app/gestionPeriodos/')
 
 def editarPeriodo(request, id):
     periodo = PeriodoAcademico.objects.get(id=id)
@@ -190,7 +190,7 @@ def edicionPeriodo(request):
 
     messages.success(request, '¡Periodo actualizado!')
 
-    return redirect('/gestionPeriodos/')
+    return redirect('/app/gestionPeriodos/')
 
 def eliminarPeriodo(request, id):
     periodo = PeriodoAcademico.objects.get(id=id)
@@ -198,7 +198,7 @@ def eliminarPeriodo(request, id):
 
     messages.success(request, '¡Periodo eliminado!')
 
-    return redirect('/gestionPeriodos/')
+    return redirect('/app/gestionPeriodos/')
 
 #Programas
 def gestionProgramas(request):
@@ -213,7 +213,7 @@ def registrarPrograma(request):
     programa = Programa.objects.create(id=id, nombre=nombre)
     messages.success(request, '¡Programa registrado!')
     #Recargar la página
-    return redirect('/gestionProgramas/')
+    return redirect('/app/gestionProgramas/')
 
 def editarPrograma(request, id):
     programa = Programa.objects.get(id=id)
@@ -229,7 +229,7 @@ def edicionPrograma(request):
 
     messages.success(request, '¡Programa actualizado!')
 
-    return redirect('/gestionProgramas/')
+    return redirect('/app/gestionProgramas/')
 
 def eliminarPrograma(request, id):
     programa = Programa.objects.get(id=id)
@@ -237,7 +237,7 @@ def eliminarPrograma(request, id):
 
     messages.success(request, '¡Programa eliminado!')
 
-    return redirect('/gestionProgramas/')
+    return redirect('/app/gestionProgramas/')
 
 #Competencias
 def gestionCompetencias(request):
@@ -253,7 +253,7 @@ def registrarCompetencia(request):
     competencia = Competencia.objects.create(id=id, nombre=nombre, tipo_competencia = tipo_competencia)
     # messages.success(request, '¡Estudiante registrado!')
     #Recargar la página
-    return redirect('/gestionCompetencias/')
+    return redirect('/app/gestionCompetencias/')
 
 def editarCompetencia(request, id):
     competencia = Competencia.objects.get(id=id)
@@ -271,7 +271,7 @@ def edicionCompetencia(request):
 
     #messages.success(request, '¡Estudiante actualizado!')
 
-    return redirect('/gestionCompetencias/')
+    return redirect('/app/gestionCompetencias/')
 
 def eliminarCompetencia(request, id):
     competencia = Competencia.objects.get(id=id)
@@ -279,7 +279,7 @@ def eliminarCompetencia(request, id):
 
     #messages.success(request, '¡Estudiante eliminado!')
 
-    return redirect('/gestionCompetencias/')
+    return redirect('/app/gestionCompetencias/')
 
 #Sesión
 def login(request):

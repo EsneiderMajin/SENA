@@ -39,6 +39,12 @@ def gestionHorarios(request):
                                                     "competencias": competenciasListadas,
                                                     "ambientes": ambientesListados})
 
+def registrarHorario(request):
+    #Recuperar los datos del form html
+    
+    #Recargar la página
+    return redirect('/app/gestionHorarios/')
+
 #Docentes
 def gestionDocentes(request):
     docentesListados = Docente.objects.all()

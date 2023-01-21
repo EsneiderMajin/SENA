@@ -18,11 +18,13 @@ from django.urls import path, include
 from django.contrib.auth.views import LoginView ,logout_then_login
 from django.contrib.auth.decorators import login_required
 from Aplicaciones.Academico.views import Inicio
+from Aplicaciones.Academico import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('app/', include(('Aplicaciones.Academico.urls', 'app'))),
     path('', login_required(Inicio.as_view()), name='index'),
     path('accounts/login/', LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', logout_then_login, name='logout')
+    path('logout/', logout_then_login, name='logout'),
+    path('accounts/login/signup/', views.signup)
 ]

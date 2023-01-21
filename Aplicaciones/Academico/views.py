@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import*
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from .forms import UserRegisterForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
 import json
 # Create your views here.
@@ -22,6 +24,26 @@ class Inicio(LoginRequiredMixin,TemplateView):
 
 def home(request):
     return render(request, "index.html")
+
+def signup(request):
+    if request.method == 'GET':
+        return  render(request, 'register.html', {
+            'form': UserRegisterForm
+        })
+    else:
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                user = User.objects.create_user(username=request.POST['username'],
+                password = request.POST['password1'])
+                user.save()
+                messages.success(request, f'Usuario registrado!')
+                return redirect('/accounts/login/')
+            except:
+                messages.success(request, f'Usuario ya existente!')
+                return redirect('/accounts/login/signup')
+        messages.success(request, f'Las contraseñas no coinciden!')
+        return redirect('/accounts/login/signup')
+    
 
 def return_home(request):
     return redirect('/')

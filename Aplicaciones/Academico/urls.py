@@ -9,6 +9,7 @@ urlpatterns = [
     path('home/', views.return_home),
     #Horarios
     path('gestionHorarios/', login_required(views.gestionHorarios), name='gestion_horario'),
+    path('gestionHorarios/registrarHorario/', login_required(views.registrarHorario)),
     #Docentes
     path('gestionDocentes/', login_required(views.gestionDocentes)),
     path('api/Docentes/', DocenteView.as_view(), name='docentes_list'),

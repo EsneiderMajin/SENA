@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opps!</title>
+    <link rel="stylesheet" href="{% static '/css/style.css' %}">
+    <style>
+        body{
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1440' height='560' preserveAspectRatio='none' viewBox='0 0 1440 560'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1005%26quot%3b)' fill='none'%3e%3crect width='1440' height='560' x='0' y='0' fill='url(%23SvgjsLinearGradient1006)'%3e%3c/rect%3e%3cpath d='M1023.2 62.19 a138.57 138.57 0 1 0 277.14 0 a138.57 138.57 0 1 0 -277.14 0z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M167.13604684150545 271.3157728300871L264.9381680026569 141.5279743996891 135.15036957225885 43.725853238537695 37.34824841110745 173.51365166893567z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M717.8332949496298 591.6360663967728L732.3005365953201 488.69629322461253 570.6572560142347 518.4653173421573z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M1481.396420124889 222.16849219486556L1464.5986735041877 102.64631448564678 1345.0764957949689 119.44406110634799 1361.87424241567 238.96623881556678z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3cpath d='M867.604%2c615.073C899.358%2c616.461%2c928.962%2c598.84%2c945.166%2c571.497C961.696%2c543.603%2c962.104%2c509.558%2c947.199%2c480.763C930.917%2c449.307%2c903.023%2c421.883%2c867.604%2c421.654C831.883%2c421.423%2c801.251%2c447.323%2c786.208%2c479.723C773.159%2c507.829%2c784.994%2c538.637%2c800.964%2c565.192C816.29%2c590.677%2c837.893%2c613.774%2c867.604%2c615.073' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float1'%3e%3c/path%3e%3cpath d='M183.48132475373063 286.6927209706264L294.62956412764424 361.66315506037176 258.451758843476 175.54448159671279z' fill='rgba(28%2c 83%2c 142%2c 0.4)' class='triangle-float3'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1005'%3e%3crect width='1440' height='560' fill='white'%3e%3c/rect%3e%3c/mask%3e%3clinearGradient x1='15.28%25' y1='-39.29%25' x2='84.72%25' y2='139.29%25' gradientUnits='userSpaceOnUse' id='SvgjsLinearGradient1006'%3e%3cstop stop-color='%230e2a47' offset='0'%3e%3c/stop%3e%3cstop stop-color='%2300459e' offset='1'%3e%3c/stop%3e%3c/linearGradient%3e%3cstyle%3e %40keyframes float1 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-10px%2c 0)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float1 %7b animation: float1 5s infinite%3b %7d %40keyframes float2 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(-5px%2c -5px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float2 %7b animation: float2 4s infinite%3b %7d %40keyframes float3 %7b 0%25%7btransform: translate(0%2c 0)%7d 50%25%7btransform: translate(0%2c -10px)%7d 100%25%7btransform: translate(0%2c 0)%7d %7d .triangle-float3 %7b animation: float3 6s infinite%3b %7d %3c/style%3e%3c/defs%3e%3c/svg%3e");
+        }
+        .div-img {
+            padding-top: 8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .div-center {
+            padding-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        a:link, a:visited, a:active {
+            text-decoration:none;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="div-img">
+            <img src="/Aplicaciones/Academico/static/img/acceso-denegado 256.png" alt="acceso denegado">
+        </div>
+        <div class="div-center">
+            <b style="color: bisque; font-size: 18px;">¡NO tiene permiso para acceder a está dirección!</b>
+        </div>
+        <div class="div-center">
+            <a class="btn-magic" href="/app/home/"> Regresar </a>
+        </div>
+    </main>
+
+</body>
+</html>

@@ -90,7 +90,7 @@ def gestionDocentes(request):
         docentesListados = Docente.objects.all()
         return render(request, "gestion-docentes.html", {"docentes": docentesListados})
     else:
-        return HttpResponse("No tienes permisos necesarios!")
+        return render(request, "denegado.html")
     
 
 class DocenteView(View):
@@ -166,7 +166,7 @@ def gestionAmbientes(request):
         ambientesListados = Ambiente.objects.all()
         return render(request, "gestion-ambientes.html", {"ambientes": ambientesListados})
     else:
-        return HttpResponse("No tienes permisos necesarios!")
+        return render(request, "denegado.html")
     
 
 def registrarAmbiente(request):
@@ -219,7 +219,7 @@ def gestionPeriodos(request):
         periodosListados = PeriodoAcademico.objects.all()
         return render(request, "gestion-periodos.html", {"periodos": periodosListados})
     else:
-        return HttpResponse("No tienes permisos necesarios!")
+        return render(request, "denegado.html")
     
 
 def registrarPeriodo(request):
@@ -268,7 +268,7 @@ def gestionProgramas(request):
         programasListados = Programa.objects.all()
         return render(request, "gestion-programas.html", {"programas": programasListados})
     else:
-        return HttpResponse("No tienes permisos necesarios!")
+        return render(request, "denegado.html")
     
 
 def registrarPrograma(request):
@@ -312,7 +312,7 @@ def gestionCompetencias(request):
         programasListados = Programa.objects.all()
         return render(request, "gestion-competencias.html", {"competencias": competenciasListadas, "programas": programasListados})
     else:
-        return HttpResponse("No tienes permisos necesarios!")
+        return render(request, "denegado.html")
     
 
 def registrarCompetencia(request):

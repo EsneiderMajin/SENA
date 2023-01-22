@@ -7,8 +7,10 @@ from .models import*
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.auth import get_user
 from .forms import UserRegisterForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
+from django.http import HttpResponse
 import json
 # Create your views here.
 
@@ -16,14 +18,23 @@ import json
 
 class Inicio(LoginRequiredMixin,TemplateView):
 
+    
     template_name = 'index.html'
 
     def get(self,request,*args,**kwargs):
-
-        return render(request,self.template_name)
+        usuario = get_user(request)
+        if usuario.is_superuser:
+            return render(request,self.template_name)
+        else:
+            return render(request,"inicio-docente.html")
 
 def home(request):
-    return render(request, "index.html")
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        return render(request, "index.html")
+    else:
+        return render(request,"inicio-docente.html")
+    
 
 def signup(request):
     if request.method == 'GET':
@@ -55,11 +66,16 @@ def gestionHorarios(request):
     franjasListadas = FranjaHoraria.objects.all()
     competenciasListadas = Competencia.objects.all()
     ambientesListados = Ambiente.objects.all()
-    return render(request, "gestion-horarios.html", {"docentes": docentesListados,
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        return render(request, "gestion-horarios.html", {"docentes": docentesListados,
                                                     "periodos": periodosListados,
                                                     "franjas": franjasListadas,
                                                     "competencias": competenciasListadas,
                                                     "ambientes": ambientesListados})
+    else:
+        return render(request, "gestion-horario-docente.html")
+    
 
 def registrarHorario(request):
     #Recuperar los datos del form html
@@ -69,8 +85,13 @@ def registrarHorario(request):
 
 #Docentes
 def gestionDocentes(request):
-    docentesListados = Docente.objects.all()
-    return render(request, "gestion-docentes.html", {"docentes": docentesListados})
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        docentesListados = Docente.objects.all()
+        return render(request, "gestion-docentes.html", {"docentes": docentesListados})
+    else:
+        return HttpResponse("No tienes permisos necesarios!")
+    
 
 class DocenteView(View):
 
@@ -140,8 +161,13 @@ class DocenteView(View):
 
 #Ambientes
 def gestionAmbientes(request):
-    ambientesListados = Ambiente.objects.all()
-    return render(request, "gestion-ambientes.html", {"ambientes": ambientesListados})
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        ambientesListados = Ambiente.objects.all()
+        return render(request, "gestion-ambientes.html", {"ambientes": ambientesListados})
+    else:
+        return HttpResponse("No tienes permisos necesarios!")
+    
 
 def registrarAmbiente(request):
     #Recuperar los datos del form html
@@ -188,9 +214,13 @@ def eliminarAmbiente(request, codigo):
 
 #Periodos
 def gestionPeriodos(request):
-    periodosListados = PeriodoAcademico.objects.all()
-    #programasListados = Programa.objects.all()
-    return render(request, "gestion-periodos.html", {"periodos": periodosListados})
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        periodosListados = PeriodoAcademico.objects.all()
+        return render(request, "gestion-periodos.html", {"periodos": periodosListados})
+    else:
+        return HttpResponse("No tienes permisos necesarios!")
+    
 
 def registrarPeriodo(request):
     #Recuperar los datos del form html
@@ -233,8 +263,13 @@ def eliminarPeriodo(request, id):
 
 #Programas
 def gestionProgramas(request):
-    programasListados = Programa.objects.all()
-    return render(request, "gestion-programas.html", {"programas": programasListados})
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        programasListados = Programa.objects.all()
+        return render(request, "gestion-programas.html", {"programas": programasListados})
+    else:
+        return HttpResponse("No tienes permisos necesarios!")
+    
 
 def registrarPrograma(request):
     #Recuperar los datos del form html
@@ -271,9 +306,14 @@ def eliminarPrograma(request, id):
 
 #Competencias
 def gestionCompetencias(request):
-    competenciasListadas = Competencia.objects.all()
-    programasListados = Programa.objects.all()
-    return render(request, "gestion-competencias.html", {"competencias": competenciasListadas, "programas": programasListados})
+    usuario = get_user(request)
+    if usuario.is_superuser:
+        competenciasListadas = Competencia.objects.all()
+        programasListados = Programa.objects.all()
+        return render(request, "gestion-competencias.html", {"competencias": competenciasListadas, "programas": programasListados})
+    else:
+        return HttpResponse("No tienes permisos necesarios!")
+    
 
 def registrarCompetencia(request):
     #Recuperar los datos del form html

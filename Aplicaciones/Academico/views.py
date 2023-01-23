@@ -3,46 +3,50 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from .models import*
+from .models import *
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user
 from .forms import UserRegisterForm
-from django.views.generic import CreateView, ListView, UpdateView, DeleteView,TemplateView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.http import HttpResponse
 import json
 # Create your views here.
 
-#Inicio
-class Inicio(LoginRequiredMixin,TemplateView):
+# Inicio
+
+
+class Inicio(LoginRequiredMixin, TemplateView):
 
     template_name = 'index.html'
 
-    def get(self,request,*args,**kwargs):
+    def get(self, request, *args, **kwargs):
         usuario = get_user(request)
         if usuario.is_superuser:
-            return render(request,self.template_name)
+            return render(request, self.template_name)
         else:
-            return render(request,"inicio-docente.html")
+            return render(request, "inicio-docente.html")
+
 
 def home(request):
     usuario = get_user(request)
     if usuario.is_superuser:
         return render(request, "index.html")
     else:
-        return render(request,"inicio-docente.html")    
+        return render(request, "inicio-docente.html")
+
 
 def signup(request):
     if request.method == 'GET':
-        return  render(request, 'register.html', {
+        return render(request, 'register.html', {
             'form': UserRegisterForm
         })
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
                 user = User.objects.create_user(username=request.POST['username'],
-                password = request.POST['password1'])
+                                                password=request.POST['password1'])
                 user.save()
                 messages.success(request, f'Usuario registrado!')
                 return redirect('/accounts/login/')
@@ -52,10 +56,13 @@ def signup(request):
         messages.success(request, f'Las contraseñas no coinciden!')
         return redirect('/accounts/login/signup')
 
+
 def return_home(request):
     return redirect('/')
 
-#Horarios
+# Horarios
+
+
 def gestionHorarios(request):
     periodosListados = PeriodoAcademico.objects.all()
     docentesListados = Docente.objects.all()
@@ -65,18 +72,19 @@ def gestionHorarios(request):
     usuario = get_user(request)
     if usuario.is_superuser:
         return render(request, "gestion-horarios.html", {"docentes": docentesListados,
-                                                    "periodos": periodosListados,
-                                                    "franjas": franjasListadas,
-                                                    "competencias": competenciasListadas,
-                                                    "ambientes": ambientesListados})
+                                                         "periodos": periodosListados,
+                                                         "franjas": franjasListadas,
+                                                         "competencias": competenciasListadas,
+                                                         "ambientes": ambientesListados})
     else:
         return render(request, "gestion-horario-docente.html")
-    
+
+
 def registrarHorario(request):
-    #Recuperar los datos del form html
+    # Recuperar los datos del form html
     docente_id = request.POST['docente']
     periodo_id = request.POST['periodo']
-    franja_id =  request.POST['franja']
+    franja_id = request.POST['franja']
     competencia_id = request.POST['competencia']
     ambiente_id = request.POST['ambiente']
     periodo = PeriodoAcademico.objects.get(id=periodo_id)
@@ -84,15 +92,18 @@ def registrarHorario(request):
     franja = FranjaHoraria.objects.get(id=franja_id)
     competencia = Competencia.objects.get(id=competencia_id)
     ambiente = Ambiente.objects.get(codigo=ambiente_id)
-    #print("INFO:" + periodo + " " + docente + " " + franja + " " + competencia + " " + ambiente)
-    #Recuperar llaves
-    #Registrar
-    Horario.objects.create(docente=docente, f_horaria=franja, ambiente=ambiente , horas_sem=4 , periodo=periodo , competencia=competencia )
+    # print("INFO:" + periodo + " " + docente + " " + franja + " " + competencia + " " + ambiente)
+    # Recuperar llaves
+    # Registrar
+    Horario.objects.create(docente=docente, f_horaria=franja, ambiente=ambiente,
+                           horas_sem=4, periodo=periodo, competencia=competencia)
     messages.success(request, '¡Horario registrado!')
-    #Recargar la página
+    # Recargar la página
     return redirect('/app/gestionHorarios/')
 
-#Docentes
+# Docentes
+
+
 def gestionDocentes(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -100,7 +111,7 @@ def gestionDocentes(request):
         return render(request, "gestion-docentes.html", {"docentes": docentesListados})
     else:
         return render(request, "denegado.html")
-    
+
 
 class DocenteView(View):
 
@@ -110,39 +121,41 @@ class DocenteView(View):
 
     def get(self, request, identificacion=0):
         if (identificacion > 0):
-            docentes = list(Docente.objects.filter(identificacion=identificacion).values())
+            docentes = list(Docente.objects.filter(
+                identificacion=identificacion).values())
             if len(docentes) > 0:
                 docente = docentes[0]
-                datos = {'message':"Success",'docente':docente}
+                datos = {'message': "Success", 'docente': docente}
             else:
-                datos = {'message':"No se ha encontrado al docente"}
+                datos = {'message': "No se ha encontrado al docente"}
         else:
             docentes = list(Docente.objects.values())
             if len(docentes) > 0:
-                datos = {'message':"Success",'docentes':docentes}
+                datos = {'message': "Success", 'docentes': docentes}
             else:
-                datos = {'message':"No se encontraron docentes"}
+                datos = {'message': "No se encontraron docentes"}
         return JsonResponse(datos)
-    
+
     def post(self, request):
-        jd=json.loads(request.body)
+        jd = json.loads(request.body)
         # print(jd)
         area_id = Area.objects.get(id=jd['area_id'])
         Docente.objects.create(identificacion=jd['identificacion'],
-                                nombres=jd['nombres'],
-                                apellido_paterno=jd['apellido_paterno'],
-                                apellido_materno=jd['apellido_materno'],
-                                tipo_identificacion=jd['tipo_identificacion'],
-                                tipo_docente=jd['tipo_docente'],
-                                tipo_contrato=jd['tipo_contrato'],
-                                area=area_id)
-        datos={'message':"Success"}
+                               nombres=jd['nombres'],
+                               apellido_paterno=jd['apellido_paterno'],
+                               apellido_materno=jd['apellido_materno'],
+                               tipo_identificacion=jd['tipo_identificacion'],
+                               tipo_docente=jd['tipo_docente'],
+                               tipo_contrato=jd['tipo_contrato'],
+                               area=area_id)
+        datos = {'message': "Success"}
         return JsonResponse(datos)
-    
+
     def put(self, request, identificacion):
-        jd=json.loads(request.body)
+        jd = json.loads(request.body)
         area_id = Area.objects.get(id=jd['area_id'])
-        docentes = list(Docente.objects.filter(identificacion=identificacion).values())
+        docentes = list(Docente.objects.filter(
+            identificacion=identificacion).values())
         if len(docentes) > 0:
             docente = Docente.objects.get(identificacion=identificacion)
             docente.identificacion = jd['identificacion']
@@ -154,21 +167,24 @@ class DocenteView(View):
             docente.tipo_contrato = jd['tipo_contrato']
             docente.area = area_id
             docente.save()
-            datos={'message':"Success"}
+            datos = {'message': "Success"}
         else:
-            datos = {'message':"No se ha encontrado al docente"}
+            datos = {'message': "No se ha encontrado al docente"}
         return JsonResponse(datos)
 
     def delete(self, request, identificacion):
-        docentes = list(Docente.objects.filter(identificacion=identificacion).values())
+        docentes = list(Docente.objects.filter(
+            identificacion=identificacion).values())
         if len(docentes) > 0:
             Docente.objects.filter(identificacion=identificacion).delete()
-            datos={'message':"Success"}
+            datos = {'message': "Success"}
         else:
-            datos = {'message':"No se ha encontrado al docente"}
+            datos = {'message': "No se ha encontrado al docente"}
         return JsonResponse(datos)
 
-#Ambientes
+# Ambientes
+
+
 def gestionAmbientes(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -176,29 +192,32 @@ def gestionAmbientes(request):
         return render(request, "gestion-ambientes.html", {"ambientes": ambientesListados})
     else:
         return render(request, "denegado.html")
-    
+
 
 def registrarAmbiente(request):
-    #Recuperar los datos del form html
+    # Recuperar los datos del form html
     codigo = request.POST['txtCodigo']
     nombre = request.POST['txtNombre']
-    tipo_ambiente =  request.POST['tipoAmbiente']
+    tipo_ambiente = request.POST['tipoAmbiente']
     capacidad = request.POST['txtCapacidad']
     ubicacion = request.POST['txtUbicacion']
-    #Registrar
-    ambiente = Ambiente.objects.create(codigo=codigo, nombre=nombre, tipo_ambiente=tipo_ambiente, capacidad=capacidad, ubicacion=ubicacion)
+    # Registrar
+    ambiente = Ambiente.objects.create(
+        codigo=codigo, nombre=nombre, tipo_ambiente=tipo_ambiente, capacidad=capacidad, ubicacion=ubicacion)
     messages.success(request, '¡Ambiente registrado!')
-    #Recargar la página
+    # Recargar la página
     return redirect('/app/gestionAmbientes/')
+
 
 def editarAmbiente(request, codigo):
     ambiente = Ambiente.objects.get(codigo=codigo)
-    return render(request, "edicion-ambiente.html", {'ambiente':ambiente})
+    return render(request, "edicion-ambiente.html", {'ambiente': ambiente})
+
 
 def edicionAmbiente(request):
     codigo = request.POST['txtCodigo']
     nombre = request.POST['txtNombre']
-    tipo_ambiente =  request.POST['tipoAmbiente']
+    tipo_ambiente = request.POST['tipoAmbiente']
     capacidad = request.POST['txtCapacidad']
     ubicacion = request.POST['txtUbicacion']
 
@@ -212,6 +231,7 @@ def edicionAmbiente(request):
     messages.success(request, '¡Ambiente actualizado!')
     return redirect('/app/gestionAmbientes/')
 
+
 def eliminarAmbiente(request, codigo):
     ambiente = Ambiente.objects.get(codigo=codigo)
     ambiente.delete()
@@ -219,7 +239,9 @@ def eliminarAmbiente(request, codigo):
     messages.success(request, '¡Ambiente eliminado!')
     return redirect('/app/gestionAmbientes/')
 
-#Periodos
+# Periodos
+
+
 def gestionPeriodos(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -227,37 +249,42 @@ def gestionPeriodos(request):
         return render(request, "gestion-periodos.html", {"periodos": periodosListados})
     else:
         return render(request, "denegado.html")
-    
+
 
 def registrarPeriodo(request):
-    #Recuperar los datos del form html
+    # Recuperar los datos del form html
     nombre = request.POST['txtNombre']
-    fecha_inicial = request.POST['fechaInicial'] 
+    fecha_inicial = request.POST['fechaInicial']
     fecha_final = request.POST['fechaFinal']
-    #Registrar
-    periodo = PeriodoAcademico.objects.create(nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)
+    print()
+    # Registrar
+    periodo = PeriodoAcademico.objects.create(
+        nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)
     messages.success(request, '¡Periodo registrado!')
-    #Recargar la página
+    # Recargar la página
     return redirect('/app/gestionPeriodos/')
+
 
 def editarPeriodo(request, id):
     periodo = PeriodoAcademico.objects.get(id=id)
     return render(request, "edicion-periodo.html", {'periodo': periodo})
 
+
 def edicionPeriodo(request):
-    id=request.POST['txtID']
-    nombre=request.POST['txtNombre']
-    fecha_incial = request.POST['fechaInicial'] 
+    id = request.POST['txtID']
+    nombre = request.POST['txtNombre']
+    fecha_incial = request.POST['fechaInicial']
     fecha_final = request.POST['fechaFinal']
 
     periodo = PeriodoAcademico.objects.get(id=id)
     periodo.nombre = nombre
-    periodo.fecha_inicial= fecha_incial
+    periodo.fecha_inicial = fecha_incial
     periodo.fecha_final = fecha_final
     periodo.save()
 
     messages.success(request, '¡Periodo actualizado!')
     return redirect('/app/gestionPeriodos/')
+
 
 def eliminarPeriodo(request, id):
     periodo = PeriodoAcademico.objects.get(id=id)
@@ -266,7 +293,9 @@ def eliminarPeriodo(request, id):
     messages.success(request, '¡Periodo eliminado!')
     return redirect('/app/gestionPeriodos/')
 
-#Programas
+# Programas
+
+
 def gestionProgramas(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -274,24 +303,26 @@ def gestionProgramas(request):
         return render(request, "gestion-programas.html", {"programas": programasListados})
     else:
         return render(request, "denegado.html")
-    
+
 
 def registrarPrograma(request):
-    #Recuperar los datos del form html
+    # Recuperar los datos del form html
     nombre = request.POST['txtNombre']
-    #Registrar
+    # Registrar
     programa = Programa.objects.create(nombre=nombre)
     messages.success(request, '¡Programa registrado!')
-    #Recargar la página
+    # Recargar la página
     return redirect('/app/gestionProgramas/')
+
 
 def editarPrograma(request, id):
     programa = Programa.objects.get(id=id)
-    return render(request, "edicion-programa.html", {'programa':programa})
+    return render(request, "edicion-programa.html", {'programa': programa})
+
 
 def edicionPrograma(request):
-    id=request.POST['txtID']
-    nombre=request.POST['txtNombre']
+    id = request.POST['txtID']
+    nombre = request.POST['txtNombre']
 
     programa = Programa.objects.get(id=id)
     programa.nombre = nombre
@@ -300,6 +331,7 @@ def edicionPrograma(request):
     messages.success(request, '¡Programa actualizado!')
     return redirect('/app/gestionProgramas/')
 
+
 def eliminarPrograma(request, id):
     programa = Programa.objects.get(id=id)
     programa.delete()
@@ -307,7 +339,9 @@ def eliminarPrograma(request, id):
     messages.success(request, '¡Programa eliminado!')
     return redirect('/app/gestionProgramas/')
 
-#Competencias
+# Competencias
+
+
 def gestionCompetencias(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -316,30 +350,33 @@ def gestionCompetencias(request):
         return render(request, "gestion-competencias.html", {"competencias": competenciasListadas, "programas": programasListados})
     else:
         return render(request, "denegado.html")
-    
+
 
 def registrarCompetencia(request):
-    #Recuperar los datos del form html
+    # Recuperar los datos del form html
     nombre = request.POST['txtNombre']
     tipo_competencia = request.POST['tipoCompetencia']
     programa_id = request.POST['programa']
     programa = Programa.objects.get(id=programa_id)
     print(programa_id)
-    #Registrar
-    competencia = Competencia.objects.create(nombre=nombre, tipo_competencia = tipo_competencia, programa = programa)
-    
+    # Registrar
+    competencia = Competencia.objects.create(
+        nombre=nombre, tipo_competencia=tipo_competencia, programa=programa)
+
     messages.success(request, '¡Competencia registrada!')
-    #Recargar la página
+    # Recargar la página
     return redirect('/app/gestionCompetencias/')
+
 
 def editarCompetencia(request, id):
     competencia = Competencia.objects.get(id=id)
     programasListados = Programa.objects.all()
-    return render(request, "edicion-competencia.html", {'competencia':competencia, "programas": programasListados})
+    return render(request, "edicion-competencia.html", {'competencia': competencia, "programas": programasListados})
+
 
 def edicionCompetencia(request):
-    id=request.POST['txtID']
-    nombre=request.POST['txtNombre']
+    id = request.POST['txtID']
+    nombre = request.POST['txtNombre']
     tipo_competencia = request.POST['tipoCompetencia']
     programa_id = request.POST['programa']
     # print(programa_id)
@@ -353,13 +390,16 @@ def edicionCompetencia(request):
     messages.success(request, '¡Competencia actualizada!')
     return redirect('/app/gestionCompetencias/')
 
+
 def eliminarCompetencia(request, id):
     competencia = Competencia.objects.get(id=id)
     competencia.delete()
-    
+
     messages.success(request, '¡Competencia eliminada!')
     return redirect('/app/gestionCompetencias/')
 
-#Sesión
+# Sesión
+
+
 def login(request):
     return render(request, "login.html")

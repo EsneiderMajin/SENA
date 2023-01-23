@@ -142,6 +142,7 @@ class Horario(models.Model):
     periodo = models.ForeignKey(PeriodoAcademico, null=True, blank=True, on_delete=models.CASCADE)
     docente = models.ForeignKey(Docente, null=True, blank=True, on_delete=models.CASCADE)
     f_horaria =  models.ForeignKey(FranjaHoraria, null=True, blank=True, on_delete=models.CASCADE)
+    competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
     ambiente = models.ForeignKey(Ambiente, null=True, blank=True, on_delete=models.CASCADE)
     horas_sem = models.PositiveIntegerField()
 

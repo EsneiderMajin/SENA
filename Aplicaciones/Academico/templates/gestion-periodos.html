@@ -7,12 +7,14 @@
             {% if messages %} {% for message in messages %}
             <div
                 class="alert alert-warning alert-dismissible fade show"
-                role="alert">
+                role="alert"
+            >
                 <button
                     type="button"
                     class="close"
                     data-dismiss="alert"
-                    aria-label="Close">
+                    aria-label="Close"
+                >
                     <span aria-hidden="true">&times;</span>
                 </button>
                 <strong class="text-dark">{{ message }}</strong>
@@ -37,7 +39,8 @@
                                 id="txtNombre"
                                 name="txtNombre"
                                 type="text"
-                                placeholder="Nombre" />
+                                placeholder="Nombre"
+                            />
                             <label for="txtNombre">Nombre</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -53,7 +56,8 @@
                                     name="fechaInicial"
                                     class="form-control"
                                     aria-label="fecha inicio"
-                                    aria-describedby="basic-addon1" />
+                                    aria-describedby="basic-addon1"
+                                />
                                 <span class="input-group-append">
                                     <span class="input-group-text bg-white">
                                         <i class="fa fa-calendar"></i>
@@ -74,7 +78,8 @@
                                     name="fechaFinal"
                                     class="form-control"
                                     aria-label="fecha fin"
-                                    aria-describedby="basic-addon1" />
+                                    aria-describedby="basic-addon1"
+                                />
                                 <span class="input-group-append">
                                     <span class="input-group-text bg-white">
                                         <i class="fa fa-calendar"></i>
@@ -83,10 +88,12 @@
                             </div>
                         </div>
                         <div
-                            class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            class="d-flex align-items-center justify-content-between mt-4 mb-0"
+                        >
                             <button
                                 type="submit"
-                                class="btn btn-success text-white">
+                                class="btn btn-success text-white"
+                            >
                                 Guardar
                             </button>
                             <a
@@ -109,7 +116,8 @@
                 <div class="card-body">
                     <div class="table-responsive py-2">
                         <table
-                            class="table table-striped table-hover table-bordered">
+                            class="table table-striped table-hover table-bordered"
+                        >
                             <thead class="">
                                 <tr>
                                     <th class="text-left" scope="col">ID</th>
@@ -140,7 +148,8 @@
                                     <td class="text-left">{{p.fecha_final}}</td>
                                     <td>
                                         <div
-                                            class="d-flex gap-2 justify-content-center">
+                                            class="d-flex gap-2 justify-content-center"
+                                        >
                                             <a
                                                 href="editarPeriodo/{{p.id}}"
                                                 class="btn btn-primary"

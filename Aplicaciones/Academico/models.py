@@ -2,8 +2,9 @@ from django.db import models
 from .choices import *
 # Create your models here.
 
+
 class TipoUsuario(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
+    # id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
 
     def __str__(self) -> str:
@@ -14,11 +15,13 @@ class TipoUsuario(models.Model):
         verbose_name_plural = 'TiposUsuario'
         db_table = 'tipo_usuario'
 
+
 class Usuario(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
+    # id = models.PositiveIntegerField(primary_key=True)
     login = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    tipo_usuario = models.ForeignKey(TipoUsuario, null=True, blank=True, on_delete=models.CASCADE)
+    tipo_usuario = models.ForeignKey(
+        TipoUsuario, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return "{}, {}".format(self.login, self.tipo_usuario)
@@ -29,8 +32,9 @@ class Usuario(models.Model):
         db_table = 'usuario'
         ordering = ['login']
 
+
 class Area(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
+    # id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
 
     def __str__(self) -> str:
@@ -42,15 +46,20 @@ class Area(models.Model):
         db_table = 'area'
         ordering = ['nombre']
 
+
 class Docente(models.Model):
     identificacion = models.PositiveIntegerField(primary_key=True)
     nombres = models.CharField(max_length=50)
     apellido_paterno = models.CharField(max_length=20)
     apellido_materno = models.CharField(max_length=20)
-    tipo_identificacion = models.CharField(max_length=6, choices=tipoIdentificacion, default='CC')
-    tipo_docente = models.CharField(max_length=11, choices=tipoDocente, default='Tecnico')
-    tipo_contrato =  models.CharField(max_length=11, choices=tipoContrato, default='PT')
-    area = models.ForeignKey(Area, null=True, blank=True, on_delete=models.CASCADE)
+    tipo_identificacion = models.CharField(
+        max_length=6, choices=tipoIdentificacion, default='CC')
+    tipo_docente = models.CharField(
+        max_length=11, choices=tipoDocente, default='Tecnico')
+    tipo_contrato = models.CharField(
+        max_length=11, choices=tipoContrato, default='PT')
+    area = models.ForeignKey(
+        Area, null=True, blank=True, on_delete=models.CASCADE)
 
     def nombre_completo(self):
         return "{} {}, {}".format(self.apellido_paterno, self.apellido_materno, self.nombres)
@@ -62,12 +71,14 @@ class Docente(models.Model):
         verbose_name = 'Docente'
         verbose_name_plural = 'Docentes'
         db_table = 'docente'
-        ordering = ['apellido_paterno','-apellido_materno']
+        ordering = ['apellido_paterno', '-apellido_materno']
+
 
 class Ambiente(models.Model):
     codigo = models.CharField(primary_key=True, max_length=10)
     nombre = models.CharField(max_length=50)
-    tipo_ambiente =  models.CharField(max_length=11, choices=tipoAmbiente, default='V')
+    tipo_ambiente = models.CharField(
+        max_length=11, choices=tipoAmbiente, default='V')
     capacidad = models.PositiveIntegerField()
     ubicacion = models.CharField(max_length=50)
 
@@ -79,11 +90,12 @@ class Ambiente(models.Model):
         verbose_name_plural = 'Ambientes'
         db_table = 'ambiente'
 
+
 class Programa(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
+    # id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    #competencias = models.ManyToManyField(Competencia)
-    
+    # competencias = models.ManyToManyField(Competencia)
+
     def __str__(self) -> str:
         return "{}".format(self.nombre)
 
@@ -92,11 +104,14 @@ class Programa(models.Model):
         verbose_name_plural = 'Programas'
         db_table = 'programa'
 
+
 class Competencia(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
+    # id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    tipo_competencia =  models.CharField(max_length=1, choices=tipoCompetencia, default='G')
-    programa = models.ForeignKey(Programa, null=True, blank=True, on_delete=models.CASCADE)
+    tipo_competencia = models.CharField(
+        max_length=1, choices=tipoCompetencia, default='G')
+    programa = models.ForeignKey(
+        Programa, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return "{}".format(self.nombre)
@@ -106,10 +121,11 @@ class Competencia(models.Model):
         verbose_name_plural = 'Competencias'
         db_table = 'competencia'
 
+
 class PeriodoAcademico(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
+    # id = models.PositiveIntegerField(primary_key=True)
     nombre = models.CharField(max_length=50)
-    fecha_inicial =  models.DateField()
+    fecha_inicial = models.DateField()
     fecha_final = models.DateField()
     programas = models.ManyToManyField(Programa)
 
@@ -121,11 +137,12 @@ class PeriodoAcademico(models.Model):
         verbose_name_plural = 'PeriodosAcademicos'
         db_table = 'periodo_academico'
 
+
 class FranjaHoraria(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
-    #competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
-    dia = models.CharField(max_length=9, choices=dia, default='Lun')
-    hora_inicio =  models.TimeField()
+    # id = models.PositiveIntegerField(primary_key=True)
+    # competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
+    dia = models.DateField()
+    hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
     horas_dia = models.PositiveIntegerField()
 
@@ -137,13 +154,19 @@ class FranjaHoraria(models.Model):
         verbose_name_plural = 'FranjasHorarias'
         db_table = 'franja_horaria'
 
+
 class Horario(models.Model):
-    #id = models.PositiveIntegerField(primary_key=True)
-    periodo = models.ForeignKey(PeriodoAcademico, null=True, blank=True, on_delete=models.CASCADE)
-    docente = models.ForeignKey(Docente, null=True, blank=True, on_delete=models.CASCADE)
-    f_horaria =  models.ForeignKey(FranjaHoraria, null=True, blank=True, on_delete=models.CASCADE)
-    competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
-    ambiente = models.ForeignKey(Ambiente, null=True, blank=True, on_delete=models.CASCADE)
+    # id = models.PositiveIntegerField(primary_key=True)
+    periodo = models.ForeignKey(
+        PeriodoAcademico, null=True, blank=True, on_delete=models.CASCADE)
+    docente = models.ForeignKey(
+        Docente, null=True, blank=True, on_delete=models.CASCADE)
+    f_horaria = models.ForeignKey(
+        FranjaHoraria, null=True, blank=True, on_delete=models.CASCADE)
+    competencia = models.ForeignKey(
+        Competencia, null=True, blank=True, on_delete=models.CASCADE)
+    ambiente = models.ForeignKey(
+        Ambiente, null=True, blank=True, on_delete=models.CASCADE)
     horas_sem = models.PositiveIntegerField()
 
     def __str__(self) -> str:
@@ -153,4 +176,3 @@ class Horario(models.Model):
         verbose_name = 'Horario'
         verbose_name_plural = 'Horarios'
         db_table = 'horario'
-

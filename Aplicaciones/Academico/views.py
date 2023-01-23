@@ -71,11 +71,12 @@ def gestionHorarios(request):
     ambientesListados = Ambiente.objects.all()
     usuario = get_user(request)
     if usuario.is_superuser:
+
         return render(request, "gestion-horarios.html", {"docentes": docentesListados,
                                                          "periodos": periodosListados,
                                                          "franjas": franjasListadas,
                                                          "competencias": competenciasListadas,
-                                                         "ambientes": ambientesListados})
+                                                         "ambientes": ambientesListados, })
     else:
         return render(request, "gestion-horario-docente.html")
 

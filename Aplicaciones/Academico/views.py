@@ -72,10 +72,23 @@ def gestionHorarios(request):
     else:
         return render(request, "gestion-horario-docente.html")
     
-
 def registrarHorario(request):
     #Recuperar los datos del form html
-    
+    docente_id = request.POST['docente']
+    periodo_id = request.POST['periodo']
+    franja_id =  request.POST['franja']
+    competencia_id = request.POST['competencia']
+    ambiente_id = request.POST['ambiente']
+    periodo = PeriodoAcademico.objects.get(id=periodo_id)
+    docente = Docente.objects.get(identificacion=docente_id)
+    franja = FranjaHoraria.objects.get(id=franja_id)
+    competencia = Competencia.objects.get(id=competencia_id)
+    ambiente = Ambiente.objects.get(codigo=ambiente_id)
+    #print("INFO:" + periodo + " " + docente + " " + franja + " " + competencia + " " + ambiente)
+    #Recuperar llaves
+    #Registrar
+    Horario.objects.create(docente=docente, f_horaria=franja, ambiente=ambiente , horas_sem=4 , periodo=periodo , competencia=competencia )
+    messages.success(request, '¡Horario registrado!')
     #Recargar la página
     return redirect('/app/gestionHorarios/')
 

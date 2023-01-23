@@ -22,7 +22,7 @@
                     <h3 class="text-center font-weight-light my-4">Gestión de Horarios</h3>
                 </div>
                 <div class="card-body">
-                    <form action="registrarHorario/" method="POST">{% csrf_token %}
+                    <form action="/app/gestionHorarios/registrarHorario/" method="POST">{% csrf_token %}
                         <div class="form-floating mb-3">
                             <select class="form-select" id="periodo" name="periodo" aria-label="Floating label select example">
                                 {% for p in periodos %}
@@ -58,7 +58,7 @@
                         <div class="form-floating mb-3">
                             <select class="form-select" id="ambiente" name="ambiente" aria-label="Floating label select example">
                                 {% for a in ambientes %}
-                                    <option value='{{a.id}}'>{{ a.nombre }}</option>
+                                    <option value='{{a.codigo}}'>{{ a.nombre }}</option>
                                 {% endfor %}
                             </select>
                             <label for="ambiente">Ambiente</label>

@@ -15,10 +15,8 @@ import json
 # Create your views here.
 
 #Inicio
-
 class Inicio(LoginRequiredMixin,TemplateView):
 
-    
     template_name = 'index.html'
 
     def get(self,request,*args,**kwargs):
@@ -33,8 +31,7 @@ def home(request):
     if usuario.is_superuser:
         return render(request, "index.html")
     else:
-        return render(request,"inicio-docente.html")
-    
+        return render(request,"inicio-docente.html")    
 
 def signup(request):
     if request.method == 'GET':
@@ -54,7 +51,6 @@ def signup(request):
                 return redirect('/accounts/login/signup')
         messages.success(request, f'Las contraseñas no coinciden!')
         return redirect('/accounts/login/signup')
-    
 
 def return_home(request):
     return redirect('/')
@@ -201,7 +197,6 @@ def edicionAmbiente(request):
     ambiente.save()
 
     messages.success(request, '¡Ambiente actualizado!')
-
     return redirect('/app/gestionAmbientes/')
 
 def eliminarAmbiente(request, codigo):
@@ -209,7 +204,6 @@ def eliminarAmbiente(request, codigo):
     ambiente.delete()
 
     messages.success(request, '¡Ambiente eliminado!')
-
     return redirect('/app/gestionAmbientes/')
 
 #Periodos
@@ -250,7 +244,6 @@ def edicionPeriodo(request):
     periodo.save()
 
     messages.success(request, '¡Periodo actualizado!')
-
     return redirect('/app/gestionPeriodos/')
 
 def eliminarPeriodo(request, id):
@@ -258,7 +251,6 @@ def eliminarPeriodo(request, id):
     periodo.delete()
 
     messages.success(request, '¡Periodo eliminado!')
-
     return redirect('/app/gestionPeriodos/')
 
 #Programas
@@ -293,7 +285,6 @@ def edicionPrograma(request):
     programa.save()
 
     messages.success(request, '¡Programa actualizado!')
-
     return redirect('/app/gestionProgramas/')
 
 def eliminarPrograma(request, id):
@@ -301,7 +292,6 @@ def eliminarPrograma(request, id):
     programa.delete()
 
     messages.success(request, '¡Programa eliminado!')
-
     return redirect('/app/gestionProgramas/')
 
 #Competencias
@@ -324,6 +314,7 @@ def registrarCompetencia(request):
     print(programa_id)
     #Registrar
     competencia = Competencia.objects.create(nombre=nombre, tipo_competencia = tipo_competencia, programa = programa)
+    
     messages.success(request, '¡Competencia registrada!')
     #Recargar la página
     return redirect('/app/gestionCompetencias/')
@@ -337,24 +328,23 @@ def edicionCompetencia(request):
     id=request.POST['txtID']
     nombre=request.POST['txtNombre']
     tipo_competencia = request.POST['tipoCompetencia']
-    # programa_id = request.POST['programa']
+    programa_id = request.POST['programa']
     # print(programa_id)
-
+    programa = Programa.objects.get(id=programa_id)
     competencia = Competencia.objects.get(id=id)
     competencia.nombre = nombre
     competencia.tipo_competencia = tipo_competencia
+    competencia.programa = programa
     competencia.save()
 
-    #messages.success(request, '¡Estudiante actualizado!')
-
+    messages.success(request, '¡Competencia actualizada!')
     return redirect('/app/gestionCompetencias/')
 
 def eliminarCompetencia(request, id):
     competencia = Competencia.objects.get(id=id)
     competencia.delete()
-
-    #messages.success(request, '¡Estudiante eliminado!')
-
+    
+    messages.success(request, '¡Competencia eliminada!')
     return redirect('/app/gestionCompetencias/')
 
 #Sesión

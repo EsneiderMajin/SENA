@@ -28,31 +28,18 @@
                             <label for="txtNombre">Nombre</label>
                         </div>    
                         <div class="form-floating mb-3">
-                            <select class="form-select" id="tipoCompetencia" name="tipoCompetencia" aria-label="Floating label select example">
+                            <select class="form-select" id="tipoCompetencia" name="tipoCompetencia" aria-label="Floating label select example" >
                               <option value="G" selected>Genérica</option>
                               <option value="E">Específica</option>
                             </select>
                             <label for="tipoCompetencia">Tipo de competencia</label>
                         </div>
-                        <!-- <div class="form-floating mb-3">
-                            <input class="form-control" list="programas" id="programas-l" name="programas-l" placeholder="Programa">
-                                <datalist id="programas">
-                                    {% for p in programas %}
-                                        <option value='{{p.nombre}}'></option>
-                                        <input type="hidden" value="{{p.id}}" id="programa" name="programa">
-                                    {% endfor %}
-                                </datalist>
-                            </input>
-                            <label for="programas-l">Programa</label>
-                        </div> -->
                         <div class="form-floating mb-3">
                             <div class="d-flex gap-2">
                                 <input class="form-control" readonly id="programas-l2" name="programas-l2" placeholder="Programa">
-                                
-                                <input type="hidden" value="{{p.id}}" id="programa" name="programa">
-                                <a href="#" class="btn btn-danger remove-btn"><i class="fa-solid fa-trash-can"></i></a>
-                            </div>
-                            
+                                <input type="hidden" id="programa" name="programa">
+                                <a class="btn btn-danger remove-btn"><i class="fa-solid fa-trash-can"></i></a>
+                            </div>  
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                             <button type="submit" class="btn btn-success text-white">Guardar</button>
@@ -77,6 +64,7 @@
                                     <th class="text-left" scope="col">ID</th>
                                     <th class="text-left" scope="col">Nombre</th>
                                     <th class="text-left" scope="col">Tipo</th>
+                                    <th class="text-left" scope="col">Programa</th>
                                     <th colspan="2" class="text-center">Opciones</th>
                                 </tr>
                             </thead>
@@ -86,6 +74,7 @@
                                     <td class="text-left" scope="row">{{c.id}}</td>
                                     <td class="text-left">{{c.nombre}}</td>
                                     <td class="text-left">{{c.tipo_competencia}}</td>
+                                    <td class="text-left">{{c.programa}}</td>
                                     <td>
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="editarCompetencia/{{c.id}}" class="btn btn-primary">Editar</a>
@@ -126,8 +115,7 @@
                                     <td class="text-left pnombre">{{p.nombre}}</td>
                                     <td>
                                         <div class="d-flex gap-2 justify-content-center">
-                                            <button href="#" class="btn btn-primary add-btn">Añadir</button>
-                                            <!-- <button href="#" class="btn btn-danger remove-btn">Quitar</button> -->
+                                            <button href="#" class="btn btn-primary add-btn" data-id="{{p.id}}">Añadir</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -148,6 +136,7 @@
 
         // Obtener el input "programas-l2"
         const programInput = document.querySelector('#programas-l2');
+        const programIdInput = document.querySelector("#programa");
 
         // Asignar el evento de clic a cada botón "añadir"
         addButtons.forEach(button => {
@@ -156,12 +145,19 @@
                 const programName = event.target.parentNode.parentNode.previousSibling.previousSibling.textContent;
                 // Asignar el nombre del programa al input "programas-l2"
                 programInput.value = programName;
-                // Deshabilitar todos los demás botones "añadir"
+                // Deshabilitar todos los demás botones "añadir" excepto al que se ha pulsado
                 addButtons.forEach(otherButton => {
                     if (otherButton !== event.target) {
                         otherButton.disabled = true;
                     }
                 });
+
+                // Obtener el valor del atributo "data-id" del botón "Añadir" que se ha pulsado
+                let programId = event.target.getAttribute("data-id");
+                // Asignar el valor del atributo "data-id" al input hidden 
+                programIdInput.value = programId;
+                programInput.value = event.target.parentNode.parentNode.querySelector(".pnombre").textContent;
+
                 // Habilitar el botón "quitar" correspondiente a esta fila
                 const removeButton = event.target.nextElementSibling;
                 removeButton.disabled = false;
@@ -177,18 +173,6 @@
                 otherButton.disabled = false;
             });
         });
-        // removeButtons.forEach(button => {
-        //     button.addEventListener('click', event => {
-        //         // Limpiar el valor del input "programas-l2"
-        //         programInput.value = '';
-        //         // Habilitar todos los botones "añadir"
-        //         addButtons.forEach(otherButton => {
-        //             otherButton.disabled = false;
-        //         });
-        //         // Deshabilitar el botón "quitar" correspondiente a esta fila
-        //         // event.target.disabled = true;
-        //     });
-        // });
     }
 
     document.addEventListener("DOMContentLoaded", inicializarBotones);

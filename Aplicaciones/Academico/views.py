@@ -11,6 +11,7 @@ from django.contrib.auth import get_user
 from .forms import UserRegisterForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView, TemplateView
 from django.http import HttpResponse
+from datetime import datetime, timedelta
 import json
 # Create your views here.
 
@@ -255,9 +256,14 @@ def gestionPeriodos(request):
 def registrarPeriodo(request):
     # Recuperar los datos del form html
     nombre = request.POST['txtNombre']
-    fecha_inicial = request.POST['fechaInicial']
-    fecha_final = request.POST['fechaFinal']
-    print()
+    fecha_inicial = datetime.strptime(request.POST['fechaInicial'], '%Y-%m-%d')
+    fecha_final = datetime.strptime(request.POST['fechaFinal'], '%Y-%m-%d')
+    # TODO validar que fecha_inicial y fecha_final tengan un rango entre ellas de 3 o 6 meses
+    # print("Fecha inicial: " + fecha_final + " Fecha final: " + fecha_final)
+    if fecha_final - fecha_inicial < timedelta(days=90) or fecha_final - fecha_inicial > timedelta(days=180):
+        messages.error(
+            request, 'El rango entre la fecha inicial y final debe ser de 3 o 6 meses')
+        return redirect('/app/gestionPeriodos/')
     # Registrar
     periodo = PeriodoAcademico.objects.create(
         nombre=nombre, fecha_inicial=fecha_inicial, fecha_final=fecha_final)

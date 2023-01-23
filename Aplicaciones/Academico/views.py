@@ -319,20 +319,26 @@ def registrarCompetencia(request):
     #Recuperar los datos del form html
     nombre = request.POST['txtNombre']
     tipo_competencia = request.POST['tipoCompetencia']
+    programa_id = request.POST['programa']
+    programa = Programa.objects.get(id=programa_id)
+    print(programa_id)
     #Registrar
-    competencia = Competencia.objects.create(nombre=nombre, tipo_competencia = tipo_competencia)
-    # messages.success(request, '¡Estudiante registrado!')
+    competencia = Competencia.objects.create(nombre=nombre, tipo_competencia = tipo_competencia, programa = programa)
+    messages.success(request, '¡Competencia registrada!')
     #Recargar la página
     return redirect('/app/gestionCompetencias/')
 
 def editarCompetencia(request, id):
     competencia = Competencia.objects.get(id=id)
-    return render(request, "edicion-competencia.html", {'competencia':competencia})
+    programasListados = Programa.objects.all()
+    return render(request, "edicion-competencia.html", {'competencia':competencia, "programas": programasListados})
 
 def edicionCompetencia(request):
     id=request.POST['txtID']
     nombre=request.POST['txtNombre']
     tipo_competencia = request.POST['tipoCompetencia']
+    # programa_id = request.POST['programa']
+    # print(programa_id)
 
     competencia = Competencia.objects.get(id=id)
     competencia.nombre = nombre

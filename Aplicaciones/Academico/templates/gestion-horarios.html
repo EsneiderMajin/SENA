@@ -305,8 +305,8 @@
         {% for f in franjas %}
         {
             title: '{{ f.dia | date:"y-m-d"}}',
-            start: '{{ f.dia }}T{{ f.hora_inicio }}',
-            end: '{{ f.dia }}T{{ f.hora_fin }}'
+            start: '{{ f.dia|date:"Y-m-d" }}T{{ f.hora_inicio|date:"H:i:s" }}',
+            end: '{{ f.dia|date:"Y-m-d" }}T{{ f.hora_fin|date:"H:i:s" }}'
         },
         {% endfor %}
         ];

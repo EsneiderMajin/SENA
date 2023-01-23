@@ -253,7 +253,30 @@
 
         var calendarUI = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarUI, {
-
+            expandRows: true,
+            slotMinTime: '08:00',
+            slotMaxTime: '20:00',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            },
+            initialView: 'dayGridMonth',
+            initialDate: '2023-01-12',
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            selectable: true,
+            nowIndicator: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+            events: [
+            {% for p in periodos %}
+            {
+            title: '{{p.nombre}}',
+            start: '{{p.fecha_inicial | date:"y-m-d" }}',
+            end: '{{p.fecha_final | date:"y-m-d" }}'
+        },
+            {% endfor %}                                  
+            ]
     });
         calendar.render();
     });

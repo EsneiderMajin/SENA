@@ -1,231 +1,271 @@
 {% extends "./base.html" %} {% block title %} Gestion de Programas {% endblock
 %} {% block body %}
 <div class="container-fluid px-4">
-  <div class="row">
-    <!-- Formulario de programas -->
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
-      {% if messages %} {% for message in messages %}
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <button
-          type="button"
-          class="close"
-          data-dismiss="alert"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <strong class="text-dark">{{ message }}</strong>
-      </div>
-      {% endfor %} {% endif %}
-      <div class="card border-1 rounded-lg">
-        <div class="card-header">
-          <h3 class="text-center font-weight-light my-4">
-            Gestión de Competencias
-          </h3>
-        </div>
-        <div class="card-body">
-          <form action="registrarCompetencia/" method="POST">
-            {% csrf_token %}
-            <div class="form-floating mb-3">
-              <input
-                class="form-control"
-                id="txtNombre"
-                name="txtNombre"
-                type="text"
-                placeholder="Nombre"
-                maxlength="50"
-                required
-              />
-              <label for="txtNombre">Nombre</label>
-            </div>
-            <div class="form-floating mb-3">
-              <select
-                class="form-select"
-                id="tipoCompetencia"
-                name="tipoCompetencia"
-                aria-label="Floating label select example"
-              >
-                <option value="G" selected>Genérica</option>
-                <option value="E">Específica</option>
-              </select>
-              <label for="tipoCompetencia">Tipo de competencia</label>
-            </div>
-            <div class="form-floating mb-3">
-              <div class="d-flex gap-2">
-                <input
-                  class="form-control"
-                  readonly
-                  id="programas-l2"
-                  name="programas-l2"
-                  placeholder="Programa"
-                />
-                <input type="hidden" id="programa" name="programa" />
-                <a class="btn btn-danger remove-btn"
-                  ><i class="fa-solid fa-trash-can"></i
-                ></a>
-              </div>
-            </div>
+    <div class="row">
+        <!-- Formulario de programas -->
+        <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4 mt-4">
+            {% if messages %} {% for message in messages %}
             <div
-              class="d-flex align-items-center justify-content-between mt-4 mb-0"
+                class="alert alert-warning alert-dismissible fade show"
+                role="alert"
             >
-              <button type="submit" class="btn btn-success text-white">
-                Guardar
-              </button>
-              <a class="btn btn-secondary" href="/app/gestionCompetencias/"
-                >Cancelar</a
-              >
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                >
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong class="text-dark">{{ message }}</strong>
             </div>
-          </form>
+            {% endfor %} {% endif %}
+            <div class="card border-1 rounded-lg">
+                <div class="card-header">
+                    <h3 class="text-center font-weight-light my-4">
+                        Gestión de Competencias
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form action="registrarCompetencia/" method="POST">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input
+                                class="form-control"
+                                id="txtNombre"
+                                name="txtNombre"
+                                type="text"
+                                placeholder="Nombre"
+                                maxlength="50"
+                                required
+                            />
+                            <label for="txtNombre">Nombre</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select
+                                class="form-select"
+                                id="tipoCompetencia"
+                                name="tipoCompetencia"
+                                aria-label="Floating label select example"
+                            >
+                                <option value="G" selected>Genérica</option>
+                                <option value="E">Específica</option>
+                            </select>
+                            <label for="tipoCompetencia"
+                                >Tipo de competencia</label
+                            >
+                        </div>
+                        <div class="form-floating mb-3">
+                            <div class="d-flex gap-2">
+                                <input
+                                    class="form-control"
+                                    readonly
+                                    id="programas-l2"
+                                    name="programas-l2"
+                                    placeholder="Programa"
+                                />
+                                <input
+                                    type="hidden"
+                                    id="programa"
+                                    name="programa"
+                                />
+                                <a class="btn btn-danger remove-btn"
+                                    ><i class="fa-solid fa-trash-can"></i
+                                ></a>
+                            </div>
+                        </div>
+                        <div
+                            class="d-flex align-items-center justify-content-between mt-4 mb-0"
+                        >
+                            <button
+                                type="submit"
+                                class="btn btn-success text-white"
+                            >
+                                Guardar
+                            </button>
+                            <a
+                                class="btn btn-secondary"
+                                href="/app/gestionCompetencias/"
+                                >Cancelar</a
+                            >
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <!-- Tabla -->
-    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
-      <div class="card mb-4">
-        <div class="card-header">
-          <i class="fas fa-table me-1"></i>
-          Competencias
-        </div>
-        <div class="card-body">
-          <div class="table-responsive py-2">
-            <table class="table table-striped table-hover table-bordered">
-              <thead class="">
-                <tr>
-                  <th class="text-left" scope="col">ID</th>
-                  <th class="text-left" scope="col">Nombre</th>
-                  <th class="text-left" scope="col">Tipo</th>
-                  <th class="text-left" scope="col">Programa</th>
-                  <th colspan="2" class="text-center">Opciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for c in competencias %}
-                <tr>
-                  <td class="text-left" scope="row">{{c.id}}</td>
-                  <td class="text-left">{{c.nombre}}</td>
-                  <td class="text-left">{{c.tipo_competencia}}</td>
-                  <td class="text-left">{{c.programa}}</td>
-                  <td>
-                    <div class="d-flex gap-2 justify-content-center">
-                      <a
-                        href="editarCompetencia/{{c.id}}"
-                        class="btn btn-primary"
-                        >Editar</a
-                      >
-                      <a
-                        href="eliminarCompetencia/{{c.id}}"
-                        class="btn btn-danger btnEliminar"
-                        >Eliminar</a
-                      >
+        <!-- Tabla -->
+        <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Competencias
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table
+                            class="table table-striped table-hover table-bordered"
+                        >
+                            <thead class="">
+                                <tr>
+                                    <th class="text-left" scope="col">ID</th>
+                                    <th class="text-left" scope="col">
+                                        Nombre
+                                    </th>
+                                    <th class="text-left" scope="col">Tipo</th>
+                                    <th class="text-left" scope="col">
+                                        Programa
+                                    </th>
+                                    <th colspan="2" class="text-center">
+                                        Opciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for c in competencias %}
+                                <tr>
+                                    <td class="text-left" scope="row">
+                                        {{c.id}}
+                                    </td>
+                                    <td class="text-left">{{c.nombre}}</td>
+                                    <td class="text-left">
+                                        {{c.tipo_competencia}}
+                                    </td>
+                                    <td class="text-left">{{c.programa}}</td>
+                                    <td>
+                                        <div
+                                            class="d-flex gap-2 justify-content-center"
+                                        >
+                                            <a
+                                                href="editarCompetencia/{{c.id}}"
+                                                class="btn btn-primary"
+                                                >Editar</a
+                                            >
+                                            <a
+                                                href="eliminarCompetencia/{{c.id}}"
+                                                class="btn btn-danger btnEliminar"
+                                                >Eliminar</a
+                                            >
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="row">
-    <!-- Tabla programas -->
-    <div class="col-12">
-      <div class="card mb-4">
-        <div class="card-header">
-          <i class="fas fa-table me-1"></i>
-          Programas
-        </div>
-        <div class="card-body">
-          <div class="table-responsive py-2">
-            <table class="table table-striped table-hover table-bordered">
-              <thead class="">
-                <tr>
-                  <th class="text-left" scope="col">ID</th>
-                  <th class="text-left" scope="col">Nombre</th>
-                  <th colspan="2" class="text-center">Opciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for p in programas %}
-                <tr>
-                  <td class="text-left pid" scope="row">{{p.id}}</td>
-                  <td class="text-left pnombre">{{p.nombre}}</td>
-                  <td>
-                    <div class="d-flex gap-2 justify-content-center">
-                      <button
-                        href="#"
-                        class="btn btn-primary add-btn"
-                        data-id="{{p.id}}"
-                      >
-                        Añadir
-                      </button>
+    <div class="row">
+        <!-- Tabla programas -->
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Programas
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table
+                            class="table table-striped table-hover table-bordered"
+                        >
+                            <thead class="">
+                                <tr>
+                                    <th class="text-left" scope="col">ID</th>
+                                    <th class="text-left" scope="col">
+                                        Nombre
+                                    </th>
+                                    <th colspan="2" class="text-center">
+                                        Opciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in programas %}
+                                <tr>
+                                    <td class="text-left pid" scope="row">
+                                        {{p.id}}
+                                    </td>
+                                    <td class="text-left pnombre">
+                                        {{p.nombre}}
+                                    </td>
+                                    <td>
+                                        <div
+                                            class="d-flex gap-2 justify-content-center"
+                                        >
+                                            <button
+                                                href="#"
+                                                class="btn btn-primary add-btn"
+                                                data-id="{{p.id}}"
+                                            >
+                                                Añadir
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <script>
-  function inicializarBotones() {
-    // Obtener todos los botones "añadir"
-    const addButtons = document.querySelectorAll(".add-btn");
-    const removeButtons = document.querySelectorAll(".remove-btn");
+    function inicializarBotones() {
+        // Obtener todos los botones "añadir"
+        const addButtons = document.querySelectorAll(".add-btn");
+        const removeButtons = document.querySelectorAll(".remove-btn");
 
-    // Obtener el input "programas-l2"
-    const programInput = document.querySelector("#programas-l2");
-    const programIdInput = document.querySelector("#programa");
+        // Obtener el input "programas-l2"
+        const programInput = document.querySelector("#programas-l2");
+        const programIdInput = document.querySelector("#programa");
 
-    // Asignar el evento de clic a cada botón "añadir"
-    addButtons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        // Obtener el nombre del programa correspondiente a esta fila
-        const programName =
-          event.target.parentNode.parentNode.previousSibling.previousSibling
-            .textContent;
-        // Asignar el nombre del programa al input "programas-l2"
-        programInput.value = programName;
-        // Deshabilitar todos los demás botones "añadir" excepto al que se ha pulsado
-        addButtons.forEach((otherButton) => {
-          if (otherButton !== event.target) {
-            otherButton.disabled = true;
-          }
+        // Asignar el evento de clic a cada botón "añadir"
+        addButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                // Obtener el nombre del programa correspondiente a esta fila
+                const programName =
+                    event.target.parentNode.parentNode.previousSibling
+                        .previousSibling.textContent;
+                // Asignar el nombre del programa al input "programas-l2"
+                programInput.value = programName;
+                // Deshabilitar todos los demás botones "añadir" excepto al que se ha pulsado
+                addButtons.forEach((otherButton) => {
+                    if (otherButton !== event.target) {
+                        otherButton.disabled = true;
+                    }
+                });
+
+                // Obtener el valor del atributo "data-id" del botón "Añadir" que se ha pulsado
+                let programId = event.target.getAttribute("data-id");
+                // Asignar el valor del atributo "data-id" al input hidden
+                programIdInput.value = programId;
+                programInput.value =
+                    event.target.parentNode.parentNode.querySelector(
+                        ".pnombre"
+                    ).textContent;
+
+                // Habilitar el botón "quitar" correspondiente a esta fila
+                const removeButton = event.target.nextElementSibling;
+                removeButton.disabled = false;
+            });
         });
 
-        // Obtener el valor del atributo "data-id" del botón "Añadir" que se ha pulsado
-        let programId = event.target.getAttribute("data-id");
-        // Asignar el valor del atributo "data-id" al input hidden
-        programIdInput.value = programId;
-        programInput.value =
-          event.target.parentNode.parentNode.querySelector(
-            ".pnombre"
-          ).textContent;
+        // Asignar el evento de clic a cada botón "quitar"
+        document
+            .querySelector(".remove-btn")
+            .addEventListener("click", function (event) {
+                //aqui va el codigo que quieres ejecutar al hacer clic en la etiqueta "a"
+                programInput.value = "";
+                // Habilitar todos los botones "añadir"
+                addButtons.forEach((otherButton) => {
+                    otherButton.disabled = false;
+                });
+            });
+    }
 
-        // Habilitar el botón "quitar" correspondiente a esta fila
-        const removeButton = event.target.nextElementSibling;
-        removeButton.disabled = false;
-      });
-    });
-
-    // Asignar el evento de clic a cada botón "quitar"
-    document
-      .querySelector(".remove-btn")
-      .addEventListener("click", function (event) {
-        //aqui va el codigo que quieres ejecutar al hacer clic en la etiqueta "a"
-        programInput.value = "";
-        // Habilitar todos los botones "añadir"
-        addButtons.forEach((otherButton) => {
-          otherButton.disabled = false;
-        });
-      });
-  }
-
-  document.addEventListener("DOMContentLoaded", inicializarBotones);
+    document.addEventListener("DOMContentLoaded", inicializarBotones);
 </script>
 {% endblock %}

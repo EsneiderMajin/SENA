@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 from .choices import *
 # Create your models here.
 
@@ -144,7 +145,14 @@ class FranjaHoraria(models.Model):
     dia = models.DateField()
     hora_inicio = models.TimeField()
     hora_fin = models.TimeField()
-    horas_dia = models.PositiveIntegerField()
+    horas_dia = models.PositiveIntegerField(editable=False)
+
+    def save(self, *args, **kwargs):
+        start_time = datetime.combine(self.dia, self.hora_inicio)
+        end_time = datetime.combine(self.dia, self.hora_fin)
+        delta = end_time - start_time
+        self.horas_dia = delta.seconds // 3600
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return "{} - {} horas".format(self.dia, self.horas_dia)

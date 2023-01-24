@@ -258,8 +258,6 @@ def registrarPeriodo(request):
     nombre = request.POST['txtNombre']
     fecha_inicial = datetime.strptime(request.POST['fechaInicial'], '%Y-%m-%d')
     fecha_final = datetime.strptime(request.POST['fechaFinal'], '%Y-%m-%d')
-    # TODO validar que fecha_inicial y fecha_final tengan un rango entre ellas de 3 o 6 meses
-    # print("Fecha inicial: " + fecha_final + " Fecha final: " + fecha_final)
     if fecha_final - fecha_inicial < timedelta(days=90) or fecha_final - fecha_inicial > timedelta(days=180):
         messages.error(
             request, 'El rango entre la fecha inicial y final debe ser de 3 o 6 meses')

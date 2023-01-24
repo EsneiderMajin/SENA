@@ -144,12 +144,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+        var franja = document.getElementById("franja");
+        franja.addEventListener("change", function() {
+            var franjaId = this.value;
+            var filteredEvents = events.filter(function(event) {
+                return event.franjaId === franjaId;
+            });
+            calendar.removeAllEvents();
+            calendar.addEventSource(filteredEvents);
+            calendar.render();
+        });
         var events = [
         {% for f in franjas %}
         {
             title: '{{ f.dia | date:"y-m-d"}}',
             start: '{{ f.dia|date:"Y-m-d" }}T{{ f.hora_inicio|date:"H:i:s" }}',
-            end: '{{ f.dia|date:"Y-m-d" }}T{{ f.hora_fin|date:"H:i:s" }}'
+            end: '{{ f.dia|date:"Y-m-d" }}T{{ f.hora_fin|date:"H:i:s" }}',
+            franjaId: '{{ f.id }}'
         },
         {% endfor %}
         ];

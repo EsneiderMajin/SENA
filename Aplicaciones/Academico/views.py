@@ -75,6 +75,7 @@ def gestionHorarios(request):
     franjasListadas = FranjaHoraria.objects.all()
     competenciasListadas = Competencia.objects.all()
     ambientesListados = Ambiente.objects.all()
+    horariosListados = Horario.objects.all()
     usuario = get_user(request)
     if usuario.is_superuser:
 
@@ -82,9 +83,10 @@ def gestionHorarios(request):
                                                          "periodos": periodosListados,
                                                          "franjas": franjasListadas,
                                                          "competencias": competenciasListadas,
-                                                         "ambientes": ambientesListados, })
+                                                         "ambientes": ambientesListados,
+                                                         "horarios": horariosListados })
     else:
-        horariosListados = Horario.objects.all()
+        
         return render(request, "gestion-horario-docente.html",{"franjas": franjasListadas, "horarios": horariosListados})
 
 

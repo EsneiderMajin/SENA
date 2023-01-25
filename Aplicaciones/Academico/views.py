@@ -86,6 +86,7 @@ def registrarHorario(request):
     franja_id = request.POST['franja']
     competencia_id = request.POST['competencia']
     ambiente_id = request.POST['ambiente']
+    #Objects
     periodo = PeriodoAcademico.objects.get(id=periodo_id)
     docente = Docente.objects.get(identificacion=docente_id)
     franja = FranjaHoraria.objects.get(id=franja_id)

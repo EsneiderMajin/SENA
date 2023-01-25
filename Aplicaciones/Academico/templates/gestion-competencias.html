@@ -48,8 +48,47 @@
                 </div>
             </div>
         </div>
-        <!-- Tabla -->
+        <!-- Tabla programas -->
         <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8 mt-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Programas
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive py-2">
+                        <table
+                            class="table table-striped table-hover table-bordered"
+                        >
+                            <thead class="">
+                                <tr>
+                                    <th class="text-left" scope="col">ID</th>
+                                    <th class="text-left" scope="col">Nombre</th>
+                                    <th colspan="2" class="text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for p in programas %}
+                                <tr>
+                                    <td class="text-left pid" scope="row">{{p.id}}</td>
+                                    <td class="text-left pnombre">{{p.nombre}}</td>
+                                    <td>
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <button href="#" class="btn btn-primary add-btn" data-id="{{p.id}}">Añadir</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Tabla -->
+        <div class="col-12 mt-4">
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
@@ -112,45 +151,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <!-- Tabla programas -->
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    Programas
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive py-2">
-                        <table
-                            class="table table-striped table-hover table-bordered"
-                        >
-                            <thead class="">
-                                <tr>
-                                    <th class="text-left" scope="col">ID</th>
-                                    <th class="text-left" scope="col">Nombre</th>
-                                    <th colspan="2" class="text-center">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for p in programas %}
-                                <tr>
-                                    <td class="text-left pid" scope="row">{{p.id}}</td>
-                                    <td class="text-left pnombre">{{p.nombre}}</td>
-                                    <td>
-                                        <div class="d-flex gap-2 justify-content-center">
-                                            <button href="#" class="btn btn-primary add-btn" data-id="{{p.id}}">Añadir</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 {% block extra_js %}

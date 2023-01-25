@@ -16,8 +16,6 @@ import json
 # Create your views here.
 
 # Inicio
-
-
 class Inicio(LoginRequiredMixin, TemplateView):
 
     template_name = 'index.html'
@@ -62,8 +60,6 @@ def return_home(request):
     return redirect('/')
 
 # Horarios
-
-
 def gestionHorarios(request):
     periodosListados = PeriodoAcademico.objects.all()
     docentesListados = Docente.objects.all()
@@ -79,7 +75,8 @@ def gestionHorarios(request):
                                                          "competencias": competenciasListadas,
                                                          "ambientes": ambientesListados, })
     else:
-        return render(request, "gestion-horario-docente.html")
+        horariosListados = Horario.objects.all()
+        return render(request, "gestion-horario-docente.html",{"franjas": franjasListadas, "horarios": horariosListados})
 
 
 def registrarHorario(request):
@@ -94,18 +91,13 @@ def registrarHorario(request):
     franja = FranjaHoraria.objects.get(id=franja_id)
     competencia = Competencia.objects.get(id=competencia_id)
     ambiente = Ambiente.objects.get(codigo=ambiente_id)
-    # print("INFO:" + periodo + " " + docente + " " + franja + " " + competencia + " " + ambiente)
-    # Recuperar llaves
     # Registrar
-    Horario.objects.create(docente=docente, f_horaria=franja, ambiente=ambiente,
-                           horas_sem=4, periodo=periodo, competencia=competencia)
+    Horario.objects.create(docente=docente, f_horaria=franja, ambiente=ambiente, periodo=periodo, competencia=competencia)
     messages.success(request, '¡Horario registrado!')
     # Recargar la página
     return redirect('/app/gestionHorarios/')
 
 # Docentes
-
-
 def gestionDocentes(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -185,8 +177,6 @@ class DocenteView(View):
         return JsonResponse(datos)
 
 # Ambientes
-
-
 def gestionAmbientes(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -242,8 +232,6 @@ def eliminarAmbiente(request, codigo):
     return redirect('/app/gestionAmbientes/')
 
 # Periodos
-
-
 def gestionPeriodos(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -299,8 +287,6 @@ def eliminarPeriodo(request, id):
     return redirect('/app/gestionPeriodos/')
 
 # Programas
-
-
 def gestionProgramas(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -345,8 +331,6 @@ def eliminarPrograma(request, id):
     return redirect('/app/gestionProgramas/')
 
 # Competencias
-
-
 def gestionCompetencias(request):
     usuario = get_user(request)
     if usuario.is_superuser:
@@ -404,7 +388,5 @@ def eliminarCompetencia(request, id):
     return redirect('/app/gestionCompetencias/')
 
 # Sesión
-
-
 def login(request):
     return render(request, "login.html")

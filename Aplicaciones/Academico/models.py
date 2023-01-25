@@ -165,20 +165,15 @@ class FranjaHoraria(models.Model):
 
 class Horario(models.Model):
     # id = models.PositiveIntegerField(primary_key=True)
-    periodo = models.ForeignKey(
-        PeriodoAcademico, null=True, blank=True, on_delete=models.CASCADE)
-    docente = models.ForeignKey(
-        Docente, null=True, blank=True, on_delete=models.CASCADE)
-    f_horaria = models.ForeignKey(
-        FranjaHoraria, null=True, blank=True, on_delete=models.CASCADE)
-    competencia = models.ForeignKey(
-        Competencia, null=True, blank=True, on_delete=models.CASCADE)
-    ambiente = models.ForeignKey(
-        Ambiente, null=True, blank=True, on_delete=models.CASCADE)
-    horas_sem = models.PositiveIntegerField()
+    periodo = models.ForeignKey(PeriodoAcademico, null=True, blank=True, on_delete=models.CASCADE)
+    docente = models.ForeignKey(Docente, null=True, blank=True, on_delete=models.CASCADE)
+    f_horaria = models.ForeignKey(FranjaHoraria, null=True, blank=True, on_delete=models.CASCADE)
+    competencia = models.ForeignKey(Competencia, null=True, blank=True, on_delete=models.CASCADE)
+    ambiente = models.ForeignKey(Ambiente, null=True, blank=True, on_delete=models.CASCADE)
+    # horas_sem = models.PositiveIntegerField()
 
     def __str__(self) -> str:
-        return "{}, {}, {}, {}, {}".format(self.periodo, self.docente, self.f_horaria, self.ambiente, self.horas_sem)
+        return "{}, {}, {}, {}".format(self.periodo, self.docente, self.f_horaria, self.competencia, self.ambiente)
 
     class Meta:
         verbose_name = 'Horario'

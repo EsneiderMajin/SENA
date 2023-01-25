@@ -78,6 +78,7 @@
                                     <th class="text-left" scope="col">Tipo</th>
                                     <th class="text-left" scope="col">Capacidad</th>
                                     <th class="text-left" scope="col">Ubicación</th>
+                                    <th class="text-left" scope="col">Estado</th>
                                     <th colspan="2" class="text-center">Opciones</th>
                                 </tr>
                             </thead>
@@ -89,9 +90,17 @@
                                     <td class="text-left">{{a.tipo_ambiente}}</td>
                                     <td class="text-left">{{a.capacidad}}</td>
                                     <td class="text-left">{{a.ubicacion}}</td>
+                                    <td class="text-left">
+                                        {% if a.estado %}
+                                        Activo
+                                        {% else %}
+                                        Inactivo
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="editarAmbiente/{{a.codigo}}" class="btn btn-primary">Editar</a>
+                                            <a href="inactivarAmbiente/{{a.codigo}}" class="btn btn-primary">Inactivar/Activar</a>
                                             <a href="eliminarAmbiente/{{a.codigo}}" class="btn btn-danger btnEliminar">Eliminar</a>
                                         </div>
                                     </td>

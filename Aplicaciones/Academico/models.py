@@ -61,6 +61,7 @@ class Docente(models.Model):
         max_length=11, choices=tipoContrato, default='PT')
     area = models.ForeignKey(
         Area, null=True, blank=True, on_delete=models.CASCADE)
+    estado = models.BooleanField(default=True)
 
     def nombre_completo(self):
         return "{} {}, {}".format(self.apellido_paterno, self.apellido_materno, self.nombres)
@@ -82,7 +83,8 @@ class Ambiente(models.Model):
         max_length=11, choices=tipoAmbiente, default='V')
     capacidad = models.PositiveIntegerField()
     ubicacion = models.CharField(max_length=50)
-
+    estado = models.BooleanField(default=True)
+    
     def __str__(self) -> str:
         return "{}, {}".format(self.nombre, self.tipo_ambiente)
 

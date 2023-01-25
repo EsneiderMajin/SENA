@@ -25,6 +25,7 @@
                                     <th class="text-left" scope="col">Tipo docente</th>
                                     <th class="text-left" scope="col">Tipo contrato</th>
                                     <th class="text-left" scope="col">Area</th>
+                                    <th class="text-left" scope="col">Estado</th>
                                     <!-- <th colspan="2" class="text-center">Opciones</th> -->
                                 </tr>
                             </thead>
@@ -39,6 +40,13 @@
                                     <td class="text-left">{{d.tipo_docente}}</td>
                                     <td class="text-left">{{d.tipo_contrato}}</td>
                                     <td class="text-left">{{d.area}}</td>
+                                    <td class="text-left">
+                                        {% if d.estado %}
+                                        Activo
+                                        {% else %}
+                                        Inactivo
+                                        {% endif %}
+                                    </td>
                                     <!-- <td>
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="/editarAmbiente/{{a.codigo}}" class="btn btn-primary">Editar</a>

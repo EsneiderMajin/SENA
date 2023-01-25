@@ -42,17 +42,21 @@ def signup(request):
             'form': UserRegisterForm
         })
     else:
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                user = User.objects.create_user(username=request.POST['username'],
-                                                password=request.POST['password1'])
-                user.save()
-                messages.success(request, f'Usuario registrado!')
-                return redirect('/accounts/login/')
-            except:
-                messages.success(request, f'Usuario ya existente!')
+        if request.user.username == request.POST['username']:
+            if request.POST['password1'] == request.POST['password2']:
+                try:
+                    user = User.objects.create_user(username=request.POST['username'],
+                                                    password=request.POST['password1'])
+                    user.save()
+                    messages.success(request, f'Usuario registrado!')
+                    return redirect('/accounts/login/')
+                except:
+                    messages.error(request, f'Usuario ya existente!')
+                    return redirect('/accounts/login/signup')
+            else:
+                messages.error(request, f'Las contraseñas no coinciden!')
                 return redirect('/accounts/login/signup')
-        messages.success(request, f'Las contraseñas no coinciden!')
+        messages.error(request, f'Este username no es válido!')
         return redirect('/accounts/login/signup')
 
 

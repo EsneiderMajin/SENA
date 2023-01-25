@@ -42,7 +42,13 @@ def signup(request):
             'form': UserRegisterForm
         })
     else:
-        if request.user.username == request.POST['username']:
+        docentesListados = Docente.objects.all()
+        for docente in docentesListados:
+            if request.POST['username'] == docente.nombres:
+                usuario = True
+            else:
+                usuario = False
+        if usuario:
             if request.POST['password1'] == request.POST['password2']:
                 try:
                     user = User.objects.create_user(username=request.POST['username'],
@@ -52,13 +58,11 @@ def signup(request):
                     return redirect('/accounts/login/')
                 except:
                     messages.error(request, f'Usuario ya existente!')
-                    return redirect('/accounts/login/signup')
             else:
                 messages.error(request, f'Las contraseñas no coinciden!')
-                return redirect('/accounts/login/signup')
-        messages.error(request, f'Este username no es válido!')
+        else:
+            messages.error(request, f'El usuario no es valido!')
         return redirect('/accounts/login/signup')
-
 
 def return_home(request):
     return redirect('/')

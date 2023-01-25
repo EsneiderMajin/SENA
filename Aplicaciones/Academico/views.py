@@ -146,7 +146,8 @@ class DocenteView(View):
                                tipo_identificacion=jd['tipo_identificacion'],
                                tipo_docente=jd['tipo_docente'],
                                tipo_contrato=jd['tipo_contrato'],
-                               area=area_id)
+                               area=area_id,
+                               estado=jd['estado'])
         datos = {'message': "Success"}
         return JsonResponse(datos)
 
@@ -165,6 +166,7 @@ class DocenteView(View):
             docente.tipo_docente = jd['tipo_docente']
             docente.tipo_contrato = jd['tipo_contrato']
             docente.area = area_id
+            docente.estado = jd['estado']
             docente.save()
             datos = {'message': "Success"}
         else:
@@ -234,6 +236,19 @@ def eliminarAmbiente(request, codigo):
     ambiente.delete()
 
     messages.success(request, '¡Ambiente eliminado!')
+    return redirect('/app/gestionAmbientes/')
+
+def inactivarAmbiente(request, codigo):
+    print(codigo)
+    ambiente = Ambiente.objects.get(codigo=codigo)
+    if ambiente.estado == True:
+        print("Se ha inactivado")
+        ambiente.estado = False
+    elif ambiente.estado == False:
+        ambiente.estado = True
+        print("Se ha activado")
+    ambiente.save()
+    messages.success(request, '¡El estado del ambiente ha cambiado!')
     return redirect('/app/gestionAmbientes/')
 
 # Periodos

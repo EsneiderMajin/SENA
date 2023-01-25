@@ -20,6 +20,7 @@ urlpatterns = [
     path('gestionAmbientes/editarAmbiente/<codigo>', login_required(views.editarAmbiente)),
     path('gestionAmbientes/edicionAmbiente/', login_required(views.edicionAmbiente)),
     path('gestionAmbientes/eliminarAmbiente/<codigo>', login_required(views.eliminarAmbiente)),
+    path('gestionAmbientes/inactivarAmbiente/<codigo>', login_required(views.inactivarAmbiente)),
     #Periodos
     path('gestionPeriodos/', login_required(views.gestionPeriodos)),
     path('gestionPeriodos/registrarPeriodo/', login_required(views.registrarPeriodo)),

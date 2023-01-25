@@ -21,21 +21,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/es.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var events = [
-            {% for h in horarios %}
-                {% if h.docente.nombres == request.user.username %}     
-                    {
-                        
-                        title: '{{ h.f_horaria.dia | date:"y-m-d"}}',
-                        start: '{{ h.f_horaria.dia|date:"Y-m-d" }}T{{ h.f_horaria.hora_inicio|date:"H:i:s" }}',
-                        end: '{{ h.f_horaria.dia|date:"Y-m-d" }}T{{ h.f_horaria.hora_fin|date:"H:i:s" }}',
-                        docenteId: '{{ h.docente }}'
-                    },
-                {% else %}
-                    console.log("No coinciden")
-                {% endif %}
-            {% endfor %}
-        ];
+        var events = [];
+        {% for h in horarios %}
+            {% if h.docente.nombres == request.user.username %}    
+                events.push({
+                    title: '{{ h.f_horaria.dia | date:"y-m-d"}}',
+                    start: '{{ h.f_horaria.dia|date:"Y-m-d" }}T{{ h.f_horaria.hora_inicio|date:"H:i:s" }}',
+                    end: '{{ h.f_horaria.dia|date:"Y-m-d" }}T{{ h.f_horaria.hora_fin|date:"H:i:s" }}',
+                    docenteId: '{{ h.docente }}'
+                });
+            {% endif %}
+        {% endfor %}
         var calendarUI = document.getElementById("calendar");
         var calendar = new FullCalendar.Calendar(calendarUI, {
             expandRows: true,

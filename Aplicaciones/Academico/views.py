@@ -58,6 +58,7 @@ def signup(request):
                     return redirect('/accounts/login/')
                 except:
                     messages.error(request, f'Usuario ya existente!')
+                    return redirect('/accounts/login/signup')
             else:
                 messages.error(request, f'Las contraseñas no coinciden!')
         else:
